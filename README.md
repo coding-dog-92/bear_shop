@@ -1,6 +1,6 @@
 # BXR Competition — Shopify theme
 
-Paddock Editions 1.6.1. A native Shopify theme based on Dawn for racing tires and braking components.
+Paddock Editions 1.6.2. A native Shopify theme based on Dawn for racing tires and braking components.
 
 ## Connect in Shopify
 
@@ -111,3 +111,10 @@ The newly included wheel, preparation and garage photographs are illustrative AI
 The first slide now includes an actual muted H.264 video, served with the theme assets, with a separate portrait crop. Its matching poster remains visible until playback succeeds and whenever motion is disabled. The film is 8.2 seconds; the existing 10-second slideshow, hover/focus pause, visibility handling and manual controls still apply. In **BXR cinematic slideshow → first Slide**, disable **Use included racing film** to restore the original photographic artwork, or select **Background video** to override the included film with Shopify-hosted footage.
 
 Included film source: [Stunning Cinematic Sports Car Animation](https://www.pexels.com/video/stunning-cinematic-sports-car-animation-30288571/) by Nikhil thakur, downloaded 2026-09-13, used and modified under the [Pexels License](https://www.pexels.com/license/). This is illustrative CGI stock footage, not footage of BXR-owned vehicles or an endorsement by the depicted manufacturers. The edit removes audio, trims before the large front-badge shot, blends the loop boundary, resizes for desktop/mobile and extracts matching WebP posters. No runtime connection to Pexels is required.
+
+
+### 1.6.2 — A stronger opening film
+
+Replaced the slow showroom orbit with a five-shot, eight-second CGI driving edit: a low tracking view of a red/black competition coupe, splitter detail, rear detail, a close pass and a return to the tracking shot. Desktop and mobile have separate reframing and matching first-frame posters. The carousel controls, hover pause, reduced-motion fallback and merchant video override are unchanged.
+
+Film source: [Sports Car Video Footage](https://www.motionforgepictures.com/sports-car-video-footage/) by Chris J Mitchell / Motion Forge Pictures, published June 1, 2023; downloaded September 13, 2026. Source clips 0001, 0005, 0006 and 0009 were trimmed, sequenced, color graded, reframed and compressed for this storefront. The publisher's [license terms](https://www.motionforgepictures.com/terms-and-conditions/) permit commercial website use and require credit; the About page contains a Film credits disclosure including “Models or Textures Supplied by Motion Forge Pictures.” The original download also includes a Creative Commons notice without a specific variant, so no CC0 or specific CC variant is claimed here. Original production files are not distributed in this theme. These videos are illustrative stock CGI and do not imply ownership or manufacturer endorsement.

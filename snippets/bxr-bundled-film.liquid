@@ -2,7 +2,7 @@
 {% assign film_layouts = 'desktop,mobile' | split: ',' %}
 {% for film_layout in film_layouts %}
   {% liquid
-    assign film_asset = 'bxr-circuit-film'
+    assign film_asset = 'bxr-redline-film'
     if film_layout == 'mobile'
       assign film_asset = film_asset | append: '-mobile'
     endif

@@ -318,3 +318,7 @@ body.bxr-dialog-open { overflow:hidden; }
  .rw-slide[data-photo-motion='true']:not([data-has-video]) .rw-hero-media { animation:none; }
  .bxr-story-image img,.bxr-reading-image img { transition:none; }
 }
+
+.bxr-film-credits { margin:0 auto; padding-top:24px; padding-bottom:32px; font-size:12px; color:var(--rw-muted); }
+.bxr-film-credits summary { cursor:pointer; }
+.bxr-film-credits p { max-width:760px; line-height:1.6; }

@@ -13,7 +13,7 @@
         assign has_video = false
         if block.settings.included_film and block.settings.video == blank
           assign bundled_film = true
-          assign fallback = 'bxr-circuit-film.webp'
+          assign fallback = 'bxr-redline-film.webp'
         endif
         if block.settings.video != blank or bundled_film
           assign has_video = true

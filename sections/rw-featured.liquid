@@ -1,7 +1,7 @@
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 <section class="rw-featured bxr-shop rw-gutter" id="bxr-shop" aria-labelledby="RWFeatured-{{ section.id }}">
   <div class="rw-section-heading">
-    <div><h2 id="RWFeatured-{{ section.id }}">{{ section.settings.heading | escape }}</h2><p class="bxr-section-description">{{ section.settings.description | escape }}</p></div>
+    <div><h2 id="RWFeatured-{{ section.id }}">{{ section.settings.heading | escape }}</h2>{% if section.settings.description != blank %}<p class="bxr-section-description">{{ section.settings.description | escape }}</p>{% endif %}</div>
     <a class="rw-text-link" href="{{ routes.all_products_collection_url }}">View all parts{% render 'rw-icon', name: 'arrow' %}</a>
   </div>
   <bxr-product-tabs>
@@ -42,7 +42,7 @@
       </div>
     {% endfor %}
   </bxr-product-tabs>
-  <div class="bxr-shop-assistance"><span>Not sure what fits your car?</span><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}" class="rw-text-link" data-bxr-fitment-open>Check vehicle fitment{% render 'rw-icon', name: 'arrow' %}</a></div>
+  <div class="bxr-shop-assistance"><span>Not sure what fits your car?</span><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}#contact" class="rw-text-link">Ask about fitment{% render 'rw-icon', name: 'arrow' %}</a></div>
 </section>
 {% schema %}
 {

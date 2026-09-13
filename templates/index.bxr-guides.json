@@ -2,7 +2,10 @@
   "sections": {
     "main": {
       "type": "bxr-guides",
-      "settings": {},
+      "settings": {
+        "eyebrow": "BXR COMPETITION",
+        "heading": "Buying guides."
+      },
       "blocks": {
         "guide0": {
           "type": "guide",

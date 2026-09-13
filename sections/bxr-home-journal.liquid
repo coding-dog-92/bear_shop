@@ -1,5 +1,5 @@
-<section class="bxr-home-journal rw-gutter" aria-labelledby="BxrJournal-{{ section.id }}">
-  <div class="bxr-home-heading"><div><p class="rw-eyebrow">{{ section.settings.eyebrow | escape }}</p><h2 id="BxrJournal-{{ section.id }}">{{ section.settings.heading | escape }}</h2></div><a class="rw-text-link" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}">Explore the journal{% render 'rw-icon', name: 'arrow' %}</a></div>
+<section class="bxr-home-journal rw-gutter{% if section.settings.compact %} bxr-guides-compact{% endif %}" aria-labelledby="BxrJournal-{{ section.id }}">
+  <div class="bxr-home-heading"><div>{% if section.settings.eyebrow != blank %}<p class="rw-eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}<h2 id="BxrJournal-{{ section.id }}">{{ section.settings.heading | escape }}</h2></div><a class="rw-text-link" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}">View all guides{% render 'rw-icon', name: 'arrow' %}</a></div>
   <div class="bxr-reading-grid">{% for block in section.blocks %}
     {% liquid
       assign article = block.settings.article
@@ -20,13 +20,14 @@
       endcase
     %}
     {% capture destination %}{% if article != blank %}{{ article.url }}{% elsif block.settings.link != blank %}{{ block.settings.link }}{% else %}{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}#{{ block.settings.topic }}{% endif %}{% endcapture %}
-    <article class="bxr-reading-card" data-topic="{{ block.settings.topic }}" {{ block.shopify_attributes }}><a href="{{ destination | strip }}"><div class="bxr-reading-image">{% render 'rw-image', image: photo, fallback: fallback, alt: '', sizes: '(min-width: 990px) 30vw, (min-width: 750px) 45vw, 100vw', width: 1000, height: 700 %}</div><p class="rw-eyebrow">{{ block.settings.eyebrow | escape }}</p><h3>{{ heading | escape }}</h3><p class="bxr-reading-description">{{ description | escape }}</p><span class="rw-text-link">Read the story{% render 'rw-icon', name: 'arrow' %}</span></a></article>
+    <article class="bxr-reading-card" data-topic="{{ block.settings.topic }}" {{ block.shopify_attributes }}><a href="{{ destination | strip }}"><div class="bxr-reading-image">{% render 'rw-image', image: photo, fallback: fallback, alt: '', sizes: '(min-width: 990px) 30vw, (min-width: 750px) 45vw, 100vw', width: 1000, height: 700 %}</div><div class="bxr-reading-copy">{% if block.settings.eyebrow != blank %}<p class="rw-eyebrow">{{ block.settings.eyebrow | escape }}</p>{% endif %}<h3>{{ heading | escape }}</h3><p class="bxr-reading-description">{{ description | escape }}</p><span class="rw-text-link">Read guide{% render 'rw-icon', name: 'arrow' %}</span></div></a></article>
   {% endfor %}</div>
 </section>
 {% schema %}
 {
   "name": "BXR journal",
   "settings": [
+    { "type": "checkbox", "id": "compact", "label": "Compact guide layout", "default": false },
     {
       "type": "text",
       "id": "eyebrow",

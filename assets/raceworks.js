@@ -122,14 +122,23 @@ class BxrCarousel extends HTMLElement {
     this.slides = [...this.querySelectorAll('[data-slide]')];
     this.dots = [...this.querySelectorAll('[data-slide-to]')];
     this.controls = this.querySelector('.rw-carousel-controls');
-    if (this.slides.length < 2 || !this.controls) return;
+    if (!this.slides.length) return;
     this.index = 0;
     this.motion = matchMedia('(prefers-reduced-motion: reduce)');
     this.playing = this.dataset.autoplay === 'true' && !this.motion.matches && !window.Shopify?.designMode;
-    this.controls.hidden = false;
+    if (this.controls) this.controls.hidden = false;
+    this.mobile = matchMedia('(max-width: 749px)');
+    this.videos = [...this.querySelectorAll('video')];
     this.interval = Math.max(5000, Number(this.dataset.interval) || 7000);
     const listen = (target, name, handler) =>
       target.addEventListener(name, handler, { signal: this.controller.signal });
+    listen(this.mobile, 'change', () => this.schedule());
+    this.videos.forEach((video) => {
+      video.muted = true;
+      video.playsInline = true;
+      listen(video, 'playing', () => video.parentElement.classList.add('is-ready'));
+      listen(video, 'error', () => video.parentElement.classList.remove('is-ready'));
+    });
     this.dots.forEach((dot, index) => listen(dot, 'click', () => this.select(index, true)));
     this.querySelectorAll('[data-slide-step]').forEach((button) =>
       listen(button, 'click', () => this.select(this.index + Number(button.dataset.slideStep), true)),
@@ -200,6 +209,7 @@ class BxrCarousel extends HTMLElement {
     this.controller?.abort();
     this.observer?.disconnect();
     clearTimeout(this.timer);
+    this.videos?.forEach((video) => video.pause());
   }
 
   select(requestedIndex, manual = false) {
@@ -216,7 +226,7 @@ class BxrCarousel extends HTMLElement {
       if (index === this.index) dot.setAttribute('aria-current', 'true');
       else dot.removeAttribute('aria-current');
     });
-    if (manual) {
+    if (manual && this.querySelector('[data-slide-status]')) {
       this.querySelector('[data-slide-status]').textContent = `Slide ${this.index + 1} of ${this.slides.length}`;
     }
     this.updatePlayback();
@@ -232,8 +242,17 @@ class BxrCarousel extends HTMLElement {
 
   schedule() {
     clearTimeout(this.timer);
-    if (!this.playing || this.hovering || this.focused || this.offscreen || document.hidden) return;
-    this.timer = setTimeout(() => this.select(this.index + 1), this.interval);
+    const running = this.playing && !this.hovering && !this.focused && !this.offscreen && !document.hidden;
+    this.slides.forEach((slide, index) => { slide.dataset.mediaRunning = String(running && index === this.index); });
+    this.videos.forEach((video) => {
+      const layout = video.parentElement.dataset.videoLayout;
+      const visible = layout === 'all' || (layout === 'mobile') === this.mobile.matches;
+      const active = running && visible && video.closest('[data-slide]') === this.slides[this.index];
+      if (active && video.paused) {
+        video.play().catch(() => { video.parentElement.classList.remove('is-ready'); });
+      } else if (!active) video.pause();
+    });
+    if (running && this.slides.length > 1) this.timer = setTimeout(() => this.select(this.index + 1), this.interval);
   }
 }
 if (!customElements.get('bxr-carousel')) customElements.define('bxr-carousel', BxrCarousel);
@@ -292,6 +311,13 @@ document.addEventListener('click', (event) => {
   const fitmentOpener = event.target.closest('[data-bxr-fitment-open]');
   const finder = document.querySelector('[data-bxr-fitment-dialog]')?.closest('bxr-dialog');
   if (fitmentOpener && finder) { event.preventDefault(); finder.show(fitmentOpener); }
+  else if (fitmentOpener) {
+    const inlineFinder = document.getElementById('bxr-fitment');
+    if (!inlineFinder) return;
+    event.preventDefault();
+    inlineFinder.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
+    inlineFinder.querySelector('[data-field="year"]')?.focus({ preventScroll: true });
+  }
 });
 
 class BxrFooter extends HTMLElement {

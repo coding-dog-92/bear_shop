@@ -1,0 +1,120 @@
+<section class="bxr-stories rw-gutter" aria-labelledby="BxrStories-{{ section.id }}">
+  <div class="bxr-home-heading"><div><p class="rw-eyebrow">{{ section.settings.eyebrow | escape }}</p><h2 id="BxrStories-{{ section.id }}">{{ section.settings.heading | escape }}</h2></div><p>{{ section.settings.description | escape }}</p></div>
+  <div class="bxr-stories-grid">{% for block in section.blocks %}
+    {% capture destination %}{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}{% render 'bxr-category-url', category: block.settings.category, collection: block.settings.collection, settings: settings %}{% endif %}{% endcapture %}
+    {% assign fallback = 'bxr-editorial-wheel.webp' %}{% if block.settings.category == 'brakes' %}{% assign fallback = 'rw-slide-brakes.webp' %}{% endif %}
+    <article class="bxr-story-card" data-category="{{ block.settings.category }}" {{ block.shopify_attributes }}>
+      <a class="bxr-story-image" href="{{ destination | strip }}" tabindex="-1" aria-hidden="true">{% render 'rw-image', image: block.settings.image, fallback: fallback, alt: '', sizes: '(min-width: 750px) 46vw, 100vw', width: 1200, height: 1000 %}</a>
+      <div class="bxr-story-copy"><p class="rw-eyebrow">{{ block.settings.eyebrow | escape }}</p><h3><a href="{{ destination | strip }}">{{ block.settings.heading | escape }}</a></h3><p>{{ block.settings.description | escape }}</p><a class="rw-text-link" href="{{ destination | strip }}">{{ block.settings.label | escape }}{% render 'rw-icon', name: 'arrow' %}</a></div>
+    </article>
+  {% endfor %}</div>
+</section>
+{% schema %}
+{
+  "name": "BXR category stories",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "GRIP. CONTROL. DETAIL."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Two essentials. Every lap."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Introduction",
+      "default": "Get closer to the parts that connect your car to the circuit."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "story",
+      "name": "Category story",
+      "settings": [
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "default": "RACING TIRES"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "It starts at the surface."
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Explore racing tires with your wheel dimensions, intended use and setup in mind."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Link label",
+          "default": "Explore racing tires"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "category",
+          "label": "Category",
+          "options": [
+            {
+              "value": "tires",
+              "label": "Racing tires"
+            },
+            {
+              "value": "brakes",
+              "label": "Braking components"
+            }
+          ],
+          "default": "tires"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Custom destination"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 2,
+  "presets": [
+    {
+      "name": "BXR category stories",
+      "blocks": [
+        {
+          "type": "story"
+        },
+        {
+          "type": "story",
+          "settings": {
+            "eyebrow": "BRAKING COMPONENTS",
+            "heading": "Precision at every corner.",
+            "description": "Calipers, rotors and the details of a complete braking system. Start with the right fit for your setup.",
+            "label": "Explore braking",
+            "category": "brakes"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

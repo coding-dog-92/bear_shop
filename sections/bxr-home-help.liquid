@@ -1,0 +1,122 @@
+{% capture support_url %}{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}{% endcapture %}
+{% if support_url contains '?' %}{% assign query_separator = '&amp;' %}{% else %}{% assign query_separator = '?' %}{% endif %}
+<section class="bxr-home-help rw-gutter" aria-labelledby="BxrHelp-{{ section.id }}"><div class="bxr-help-intro"><p class="rw-eyebrow">{{ section.settings.eyebrow | escape }}</p><h2 id="BxrHelp-{{ section.id }}">{{ section.settings.heading | escape }}</h2><p>{{ section.settings.description | escape }}</p><a class="rw-text-link" href="{{ support_url }}#contact">Contact BXR{% render 'rw-icon', name: 'arrow' %}</a></div><div class="bxr-questions">
+{% for block in section.blocks %}<details class="bxr-question" {{ block.shopify_attributes }}><summary>{{ block.settings.heading | escape }}{% render 'rw-icon', name: 'plus' %}</summary><div class="bxr-answer rte">{{ block.settings.answer }}
+{% case block.settings.destination %}
+{% when 'fitment' %}<a href="{{ support_url }}" data-bxr-fitment-open class="rw-text-link">Check vehicle fitment{% render 'rw-icon', name: 'arrow' %}</a>
+{% when 'shipping' %}<a class="rw-text-link" href="{% if shop.shipping_policy != blank %}{{ shop.shipping_policy.url }}{% else %}{{ support_url }}{{ query_separator }}topic=Shipping%20%26%20returns#contact{% endif %}">{% if shop.shipping_policy != blank %}Read shipping policy{% else %}Ask about shipping{% endif %}{% render 'rw-icon', name: 'arrow' %}</a>
+{% when 'returns' %}<a class="rw-text-link" href="{% if shop.refund_policy != blank %}{{ shop.refund_policy.url }}{% else %}{{ support_url }}{{ query_separator }}topic=Shipping%20%26%20returns#contact{% endif %}">{% if shop.refund_policy != blank %}Read returns policy{% else %}Ask about returns{% endif %}{% render 'rw-icon', name: 'arrow' %}</a>
+{% when 'order' %}<a class="rw-text-link" href="{{ support_url }}{{ query_separator }}topic=Existing%20order#contact">Get order help{% render 'rw-icon', name: 'arrow' %}</a>
+{% endcase %}</div></details>{% endfor %}
+</div></section>
+{% schema %}
+{
+  "name": "BXR purchase help",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "HERE TO HELP"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Good questions. Clear answers."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Introduction",
+      "default": "A few things to know before the next step. For anything else, get in touch."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer"
+        },
+        {
+          "type": "select",
+          "id": "destination",
+          "label": "Helpful link",
+          "options": [
+            {
+              "value": "fitment",
+              "label": "Vehicle finder"
+            },
+            {
+              "value": "shipping",
+              "label": "Shipping policy or enquiry"
+            },
+            {
+              "value": "returns",
+              "label": "Returns policy or enquiry"
+            },
+            {
+              "value": "order",
+              "label": "Order enquiry"
+            },
+            {
+              "value": "none",
+              "label": "No link"
+            }
+          ],
+          "default": "fitment"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "BXR purchase help",
+      "blocks": [
+        {
+          "type": "question",
+          "settings": {
+            "heading": "Will this part fit my car?",
+            "answer": "<p>Start with your year, make, model and trim. Wheel dimensions and existing modifications can also affect fitment. Our finder returns only verified catalog matches; if yours is not listed, send us the details before ordering.</p>",
+            "destination": "fitment"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "heading": "Where do you ship, and how long does it take?",
+            "answer": "<p>Shipping options depend on the item and destination. Review the available delivery information at checkout. For a particular item or an event deadline, ask us before placing your order.</p>",
+            "destination": "shipping"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "heading": "What should I check before a return?",
+            "answer": "<p>Check the applicable return conditions before ordering or installing a part. If you are unsure about eligibility, contact us with the item details so we can help with the next step.</p>",
+            "destination": "returns"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "heading": "How can I get help with an order?",
+            "answer": "<p>Have your order number and the email used at checkout ready. Send us your question through the contact form so we can look into the details.</p>",
+            "destination": "order"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

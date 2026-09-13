@@ -1,6 +1,6 @@
 # BXR Competition — Shopify theme
 
-Paddock Editions 1.5.1. A native Shopify theme based on Dawn for racing tires and braking components.
+Paddock Editions 1.6.0. A native Shopify theme based on Dawn for racing tires and braking components.
 
 ## Connect in Shopify
 
@@ -15,8 +15,8 @@ The Shopify theme folders are at the repository root. No build, ZIP extraction, 
 
 - **Products**: manage actual products, images, variants, prices, inventory and Online Store availability.
 - **Products → Collections**: create Racing tires, Braking systems and Featured parts collections.
-- **Edit theme → BXR featured parts → Featured collection**: select Featured parts.
-- **Edit theme → BXR categories**: select each Collection and clear any Custom destination override.
+- **Edit theme → BXR shop collection → Featured collection**: select Featured parts.
+- **Edit theme → BXR category stories**: select each Collection and clear any Custom destination override.
 - **Edit theme → BXR header**: select the tire/brake collections; leave Menu blank to use the included navigation.
 - **BXR cinematic slideshow**: edit the three slides, imagery, copy and button destinations.
 - **Settings → Customer accounts**: enable sign-in links; keep Show customer account link enabled in BXR header.
@@ -88,3 +88,19 @@ The existing vehicle finder retains its verified mapping blocks and now opens fr
 The slideshow defaults to seven-second rotation, pauses on mouse hover and keyboard focus, and resumes after leaving. Explicit pause, reduced-motion preference, hidden tabs, offscreen carousel and theme-editor mode suspend automatic rotation. Manual slide selection does not permanently disable rotation. The compact pause control remains available for touch and keyboard users.
 
 Header, shopping area, guide card and footer share a 1440px content width on large screens. The guide has a bounded image height with matching panel edges rather than a full-width, naturally expanding image.
+
+
+### 1.6.0 — A complete editorial homepage
+
+Homepage order: cinematic slideshow → shop collection and category tabs → two category stories → inline vehicle finder → three BXR Journal stories → brand story → purchase help → footer. Earlier category, guide and brand sections remain disabled in the editor, preserving their saved content.
+
+In **Online Store → Themes → Edit theme**, select **Home page**:
+
+- **BXR cinematic slideshow → Slide**: replace Desktop image/Mobile image, or choose **Background video** and optionally **Mobile background video** from Shopify Files. Use a muted 8–12 second film. The included first slide uses a subtle photographic camera movement, not generated driving footage. Text and buttons stay still. Images remain visible until video playback succeeds. Motion pauses on hover, keyboard focus, explicit pause, hidden tabs and leaving the viewport; reduced-motion and editor mode start paused. The homepage now rotates every 10 seconds.
+- **BXR category stories**: edit the two editorial images, headings, descriptions and category/collection destinations. The shopping tabs above remain the direct product browser.
+- **BXR vehicle finder**: the form is visible on the page. Add only verified vehicle mappings. With no configured matches, visitors see an honest result and can carry their vehicle details into Support. A full fitment database still requires real supplier data.
+- **BXR journal → Journal story**: each card links to a complete included guide. Select a Shopify blog article to use its title, excerpt, image and URL, or choose a custom link and cover. If replacing the included guides with a blog, select corresponding articles for these cards too.
+- **BXR brand story**: manage the image and company introduction.
+- **BXR purchase help → Question**: edit questions and answers. Shipping and returns automatically link to published Shopify policies, falling back to a relevant enquiry when a policy has not been published.
+
+The newly included wheel, preparation and garage photographs are illustrative AI-generated editorial assets; they do not document BXR facilities, events or exact product specifications. Real product information is still managed under **Products**, and business terms under **Settings → Policies**.

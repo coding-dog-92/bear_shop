@@ -4,7 +4,7 @@
   {% else %}
     <nav class="bxr-guide-topics rw-gutter" aria-label="Guide topics">{% for block in section.blocks %}<a href="#{{ block.settings.anchor | handleize }}">{{ block.settings.topic | escape }}{% render 'rw-icon', name: 'arrow' %}</a>{% endfor %}</nav>
     <div class="bxr-guide-list rw-gutter">{% for block in section.blocks %}<article class="bxr-guide-article" id="{{ block.settings.anchor | handleize }}" {{ block.shopify_attributes }}>
-      <div class="bxr-guide-art">{% assign fallback = 'rw-' | append: block.settings.artwork | append: '.webp' %}{% render 'rw-image', image: block.settings.image, fallback: fallback, alt: block.settings.image_alt, loading: 'lazy', sizes: '(min-width: 750px) 40vw, 100vw', width: 1200, height: 1000 %}</div>
+      <div class="bxr-guide-art">{% case block.settings.artwork %}{% when 'tires' %}{% assign fallback = 'bxr-clean-tires.webp' %}{% when 'brakes' %}{% assign fallback = 'rw-slide-brakes.webp' %}{% else %}{% assign fallback = 'bxr-journal-preparation.webp' %}{% endcase %}{% render 'rw-image', image: block.settings.image, fallback: fallback, alt: block.settings.image_alt, loading: 'lazy', sizes: '(min-width: 750px) 40vw, 100vw', width: 1200, height: 1000 %}</div>
       <div class="bxr-guide-body"><p class="rw-eyebrow">0{{ forloop.index }} / {{ block.settings.topic | escape }}</p><h2>{{ block.settings.heading | escape }}</h2><div class="rte">{{ block.settings.body }}</div></div>
     </article>{% endfor %}</div>
   {% endif %}
@@ -18,7 +18,7 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "THE BXR FIELD NOTES"
+      "default": "THE BXR JOURNAL"
     },
     {
       "type": "text",
@@ -95,7 +95,7 @@
             },
             {
               "value": "guide",
-              "label": "Tire detail"
+              "label": "Track preparation"
             }
           ],
           "default": "tires"
@@ -136,7 +136,7 @@
             "topic": "Track preparation",
             "heading": "Arrive with a plan.",
             "artwork": "guide",
-            "image_alt": "Close-up of textured racing tire rubber",
+            "image_alt": "Helmet, gloves and preparation tools in a clean pit garage",
             "body": "<p>A clear preparation routine helps you arrive ready to focus. Keep a record of the parts fitted to your car and the instructions that accompany them.</p><h3>Review before the event</h3><p>Check the event organiser\u2019s vehicle requirements and inspection process. Arrange a pre-event inspection with a qualified workshop and follow the relevant component service guidance.</p><h3>Bring the right information</h3><p>Keep tire and brake specifications, installation records and supplier contacts together. Note any fitment changes since the last event.</p><h3>Inspect and record</h3><p>Use manufacturer guidance for inspection limits, bedding procedures and maintenance. Record observations between sessions and ask a qualified professional to investigate unusual wear, vibration or changes in braking performance.</p>"
           }
         }

@@ -1,0 +1,137 @@
+<section class="bxr-home-journal rw-gutter" aria-labelledby="BxrJournal-{{ section.id }}">
+  <div class="bxr-home-heading"><div><p class="rw-eyebrow">{{ section.settings.eyebrow | escape }}</p><h2 id="BxrJournal-{{ section.id }}">{{ section.settings.heading | escape }}</h2></div><a class="rw-text-link" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}">Explore the journal{% render 'rw-icon', name: 'arrow' %}</a></div>
+  <div class="bxr-reading-grid">{% for block in section.blocks %}
+    {% liquid
+      assign article = block.settings.article
+      assign photo = block.settings.image | default: article.image
+      assign heading = block.settings.heading
+      assign description = block.settings.description
+      if article != blank
+        assign heading = article.title
+        assign description = article.excerpt_or_content | strip_html | truncatewords: 22
+      endif
+      case block.settings.topic
+        when 'tires'
+          assign fallback = 'bxr-clean-tires.webp'
+        when 'brakes'
+          assign fallback = 'rw-slide-brakes.webp'
+        else
+          assign fallback = 'bxr-journal-preparation.webp'
+      endcase
+    %}
+    {% capture destination %}{% if article != blank %}{{ article.url }}{% elsif block.settings.link != blank %}{{ block.settings.link }}{% else %}{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}#{{ block.settings.topic }}{% endif %}{% endcapture %}
+    <article class="bxr-reading-card" data-topic="{{ block.settings.topic }}" {{ block.shopify_attributes }}><a href="{{ destination | strip }}"><div class="bxr-reading-image">{% render 'rw-image', image: photo, fallback: fallback, alt: '', sizes: '(min-width: 990px) 30vw, (min-width: 750px) 45vw, 100vw', width: 1000, height: 700 %}</div><p class="rw-eyebrow">{{ block.settings.eyebrow | escape }}</p><h3>{{ heading | escape }}</h3><p class="bxr-reading-description">{{ description | escape }}</p><span class="rw-text-link">Read the story{% render 'rw-icon', name: 'arrow' %}</span></a></article>
+  {% endfor %}</div>
+</section>
+{% schema %}
+{
+  "name": "BXR journal",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "NOTES FROM THE PADDOCK"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The BXR Journal."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article",
+      "name": "Journal story",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article",
+          "label": "Shopify blog article (optional)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Cover image"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "default": "THE DETAILS"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Know your tire size."
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Wheel dimensions, intended use and the questions to ask before choosing a tire."
+        },
+        {
+          "type": "select",
+          "id": "topic",
+          "label": "Included guide",
+          "options": [
+            {
+              "value": "tires",
+              "label": "Tire sizing"
+            },
+            {
+              "value": "brakes",
+              "label": "Brake fitment"
+            },
+            {
+              "value": "preparation",
+              "label": "Track preparation"
+            }
+          ],
+          "default": "tires"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Custom story link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "BXR journal",
+      "blocks": [
+        {
+          "type": "article",
+          "settings": {
+            "eyebrow": "01 / TIRE NOTES"
+          }
+        },
+        {
+          "type": "article",
+          "settings": {
+            "eyebrow": "02 / BRAKE NOTES",
+            "heading": "Before you choose a brake kit.",
+            "description": "A closer look at the vehicle, wheel and component details to bring to the conversation.",
+            "topic": "brakes"
+          }
+        },
+        {
+          "type": "article",
+          "settings": {
+            "eyebrow": "03 / TRACK NOTES",
+            "heading": "A little preparation. A better day.",
+            "description": "Build a clear plan for your next event, from workshop checks to the information you bring.",
+            "topic": "preparation"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

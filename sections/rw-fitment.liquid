@@ -1,5 +1,6 @@
-<bxr-dialog><dialog data-bxr-fitment-dialog class="bxr-drawer" id="BxrFitment-{{ section.id }}" aria-labelledby="BxrFitmentTitle-{{ section.id }}"><div class="bxr-drawer-heading"><div><p class="rw-eyebrow">VEHICLE FITMENT</p><h2 id="BxrFitmentTitle-{{ section.id }}">{{ section.settings.heading | escape }}</h2></div><button class="rw-icon-button" type="button" data-bxr-close aria-label="Close vehicle finder">{% render 'rw-icon', name: 'close' %}</button></div><p class="bxr-drawer-intro">{{ section.settings.introduction | escape }}</p>
-  <rw-fitment data-support-url="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}">
+<section class="bxr-vehicle rw-gutter" id="bxr-fitment" aria-labelledby="BxrFitmentTitle-{{ section.id }}">
+  <div class="bxr-vehicle-intro"><p class="rw-eyebrow">VEHICLE FITMENT</p><h2 id="BxrFitmentTitle-{{ section.id }}">{{ section.settings.heading | escape }}</h2><p>{{ section.settings.introduction | escape }}</p><a class="rw-text-link" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}#tires">Understand tire sizing{% render 'rw-icon', name: 'arrow' %}</a></div>
+  <div class="bxr-vehicle-fields">  <rw-fitment data-support-url="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}">
     <form class="rw-fitment-form">
       <label class="rw-select-wrap" for="FitmentYear-{{ section.id }}"><span>Year</span><select id="FitmentYear-{{ section.id }}" data-field="year" name="year" required><option value="">Select year</option>{% assign current_year = 'now' | date: '%Y' | plus: 1 %}{% for year in (1980..current_year) reversed %}<option value="{{ year }}">{{ year }}</option>{% endfor %}</select></label>
       {% assign vehicle_fields = 'make,model,trim' | split: ',' %}
@@ -14,10 +15,12 @@
     </ul>
     <noscript><p>Enable JavaScript to check fitment, or <a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}">send us your vehicle details</a>.</p></noscript>
   </rw-fitment>
-<p class="bxr-finder-note">{{ section.settings.note | escape }}</p><a class="rw-text-link" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}#tires">Already know your tire size?{% render 'rw-icon', name: 'arrow' %}</a></dialog></bxr-dialog>
+<p class="bxr-finder-note">{{ section.settings.note | escape }}</p></div>
+</section>
 {% schema %}
 {
   "name": "BXR vehicle finder",
+  "limit": 1,
   "max_blocks": 50,
   "settings": [
     {

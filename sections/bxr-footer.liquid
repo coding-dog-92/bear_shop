@@ -1,4 +1,18 @@
-<footer class="bxr-footer rw-gutter"><div class="bxr-footer-top"><div><a class="rw-brand" href="{{ routes.root_url }}">{{ section.settings.brand | escape }}</a><p>{{ section.settings.description | escape }}</p></div><nav aria-label="Footer shop"><p class="rw-eyebrow">SHOP</p><a href="{{ routes.all_products_collection_url }}">All parts</a><a href="{{ routes.search_url }}?type=product&amp;q=tire">Racing tires</a><a href="{{ routes.search_url }}?type=product&amp;q=brake">Braking systems</a></nav><nav aria-label="Footer information"><p class="rw-eyebrow">BXR COMPETITION</p><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}">Guides</a><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'about' %}">About BXR</a><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}">Support</a>{% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">My account</a>{% endif %}</nav></div><div class="bxr-footer-bottom"><small>&copy; {{ 'now' | date: '%Y' }} {{ section.settings.brand | escape }}</small><nav aria-label="Store policies">{% for policy in shop.policies %}{% if policy != blank %}<a href="{{ policy.url }}">{{ policy.title | escape }}</a>{% endif %}{% endfor %}</nav>{% if section.settings.show_payments %}<ul class="bxr-payment-icons" role="list">{% for type in shop.enabled_payment_types %}<li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>{% endfor %}</ul>{% endif %}</div></footer>
+<footer class="bxr-footer rw-gutter">
+  <div class="bxr-footer-top">
+    <div><a class="rw-brand" href="{{ routes.root_url }}">{{ section.settings.brand | escape }}</a><p>{{ section.settings.description | escape }}</p>{% if section.settings.email != blank %}<a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a>{% endif %}{% if section.settings.hours != blank %}<p>{{ section.settings.hours | escape }}</p>{% endif %}</div>
+    <nav aria-label="Footer shop"><p class="rw-eyebrow">SHOP</p><a href="{{ routes.all_products_collection_url }}">All parts</a><a href="{% render 'bxr-category-url', category: 'tires', settings: settings %}">Racing tires</a><a href="{% render 'bxr-category-url', category: 'brakes', settings: settings %}">Braking components</a></nav>
+    <nav aria-label="Footer information"><p class="rw-eyebrow">BXR COMPETITION</p><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}">Guides</a><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'about' %}">About BXR</a><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}">Contact us</a></nav>
+    <nav aria-label="Customer care"><p class="rw-eyebrow">CUSTOMER CARE</p>
+      {% capture support_url %}{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}{% endcapture %}
+      {% if support_url contains '?' %}{% assign query_separator = '&amp;' %}{% else %}{% assign query_separator = '?' %}{% endif %}
+      <a href="{% if shop.shipping_policy != blank %}{{ shop.shipping_policy.url }}{% else %}{{ support_url }}{{ query_separator }}topic=Shipping%20%26%20returns#contact{% endif %}">{% if shop.shipping_policy != blank %}Shipping policy{% else %}Shipping questions{% endif %}</a>
+      <a href="{% if shop.refund_policy != blank %}{{ shop.refund_policy.url }}{% else %}{{ support_url }}{{ query_separator }}topic=Shipping%20%26%20returns#contact{% endif %}">{% if shop.refund_policy != blank %}Returns policy{% else %}Returns questions{% endif %}</a>
+      {% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">My account &amp; orders</a>{% else %}<a href="{{ support_url }}{{ query_separator }}topic=Existing%20order#contact">Order help</a>{% endif %}
+    </nav>
+  </div>
+  <div class="bxr-footer-bottom"><small>&copy; {{ 'now' | date: '%Y' }} {{ section.settings.brand | escape }}</small><nav aria-label="Store policies">{% for policy in shop.policies %}{% if policy != blank %}<a href="{{ policy.url }}">{{ policy.title | escape }}</a>{% endif %}{% endfor %}</nav>{% if section.settings.show_payments %}<ul class="bxr-payment-icons" role="list">{% for type in shop.enabled_payment_types %}<li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>{% endfor %}</ul>{% endif %}</div>
+</footer>
 {% schema %}
 {
   "name": "BXR footer",
@@ -20,6 +34,20 @@
       "id": "show_payments",
       "label": "Show enabled payment methods",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Public contact email (optional)"
+    },
+    {
+      "type": "text",
+      "id": "hours",
+      "label": "Contact hours (optional)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Shipping and returns link to published policies. Until these exist, the links open the corresponding support enquiry. Enter real policies in Shopify Settings > Policies."
     }
   ]
 }

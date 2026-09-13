@@ -1,0 +1,19 @@
+{%- liquid
+  if collection != blank
+    echo collection.url
+  elsif category == 'brakes'
+    if settings.bxr_brakes_collection != blank
+      echo settings.bxr_brakes_collection.url
+    else
+      assign product_type = settings.bxr_brakes_type | default: 'Braking systems'
+      echo product_type | url_for_type
+    endif
+  else
+    if settings.bxr_tires_collection != blank
+      echo settings.bxr_tires_collection.url
+    else
+      assign product_type = settings.bxr_tires_type | default: 'Racing tires'
+      echo product_type | url_for_type
+    endif
+  endif
+-%}

@@ -5,6 +5,9 @@
       {% if section.settings.link != blank %}<a class="rw-text-link" href="{{ section.settings.link }}">Explore guides{% render 'rw-icon', name: 'arrow' %}</a>{% else %}<a class="rw-text-link" href="#RWGuideArticles-{{ section.id }}" data-guide-open>Explore guides{% render 'rw-icon', name: 'arrow' %}</a>{% endif %}
     </div>
   </div>
+  {% if section.settings.link != blank and section.blocks.size > 0 %}
+    <div class="bxr-guide-links rw-gutter">{% for block in section.blocks %}<article {{ block.shopify_attributes }}><p class="rw-eyebrow">GUIDE 0{{ forloop.index }}</p><h3>{{ block.settings.title | escape }}</h3><div>{{ block.settings.body }}</div><a class="rw-text-link" href="{{ block.settings.link | default: section.settings.link }}">Read guide{% render 'rw-icon', name: 'arrow' %}</a></article>{% endfor %}</div>
+  {% endif %}
   {% if section.settings.link == blank %}
     <details class="rw-guide-articles rw-gutter" id="RWGuideArticles-{{ section.id }}">
       <summary>Setup essentials{% render 'rw-icon', name: 'plus' %}</summary>
@@ -47,6 +50,7 @@
       "type": "guide",
       "name": "Setup note",
       "settings": [
+        {"type":"url","id":"link","label":"Guide destination (optional)"},
         {
           "type": "text",
           "id": "title",

@@ -1,3 +1,4 @@
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
 <section class="rw-featured rw-gutter" aria-labelledby="RWFeatured-{{ section.id }}">
   <div class="rw-section-heading"><h2 id="RWFeatured-{{ section.id }}">{{ section.settings.heading | escape }}</h2><a class="rw-text-link" href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}">Explore all parts{% render 'rw-icon', name: 'arrow' %}</a></div>
   <div class="rw-products">

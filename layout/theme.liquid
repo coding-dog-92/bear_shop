@@ -38,11 +38,13 @@
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
+    {% assign bxr_browser_brand = settings.bxr_brand_name | default: 'BXR Competition' %}
+    {% if bxr_page_title == shop.name %}{% assign bxr_page_title = bxr_browser_brand %}{% endif %}
     <title>
       {{ bxr_page_title | escape }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
       {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless bxr_page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- unless bxr_page_title contains bxr_browser_brand %} &ndash; {{ bxr_browser_brand | escape }}{% endunless -%}
     </title>
 
     {% if page_description %}

@@ -3,7 +3,7 @@ class RaceworksFitment extends HTMLElement {
   connectedCallback() {
     this.controller?.abort();
     this.controller = new AbortController();
-    this.fields = [...this.querySelectorAll('select[data-field]')];
+    this.fields = [...this.querySelectorAll('[data-field]')];
     this.rows = [...this.querySelectorAll('[data-vehicle-data] li')].map(
       (node) =>
         new Map(
@@ -13,21 +13,18 @@ class RaceworksFitment extends HTMLElement {
         ),
     );
     this.form = this.querySelector('form');
-    this.submitButton = this.form.querySelector('button[type="submit"]');
-    this.status = this.querySelector('[aria-live]');
+    this.result = this.querySelector('[data-fitment-result]');
+    this.status = this.querySelector('[data-fitment-status]');
+    this.results = this.querySelector('[data-fitment-results]');
     this.fields.forEach((select, index) =>
-      select.addEventListener('change', () => this.refresh(index + 1), { signal: this.controller.signal }),
+      select.addEventListener('input', () => this.refresh(index + 1), { signal: this.controller.signal }),
     );
     this.form.addEventListener(
       'submit',
       (event) => {
         event.preventDefault();
         if (!this.form.reportValidity()) return;
-        const row = this.matchingRows(this.fields.length)[0];
-        if (!row) return;
-        const destination = new URL(row.get('destination'), location.origin);
-        if (!['https:', 'http:'].includes(destination.protocol)) return;
-        location.assign(destination.href);
+        this.showResults();
       },
       { signal: this.controller.signal },
     );
@@ -40,26 +37,59 @@ class RaceworksFitment extends HTMLElement {
 
   matchingRows(depth) {
     return this.rows.filter((row) =>
-      this.fields.slice(0, depth).every((select) => select.value && row.get(select.dataset.field) === select.value),
+      this.fields.slice(0, depth).every((field) => {
+        const value = this.normalize(field.value);
+        return (!value && field.dataset.field === 'trim') || this.normalize(row.get(field.dataset.field)) === value;
+      }),
     );
   }
 
   refresh(start) {
+    this.result.hidden = true;
     this.fields.slice(start).forEach((select, offset) => {
       const index = start + offset;
+      if (!select.list) return;
       const options = [...new Set(this.matchingRows(index).map((row) => row.get(select.dataset.field)))]
         .filter(Boolean)
         .sort((a, b) =>
           select.dataset.field === 'year' ? b.localeCompare(a, undefined, { numeric: true }) : a.localeCompare(b),
         );
-      select.replaceChildren(new Option(select.getAttribute('aria-label'), ''));
-      options.forEach((value) => select.add(new Option(value, value)));
-      select.disabled = options.length === 0;
+      select.list.replaceChildren(...options.map((value) => new Option(value, value)));
     });
-    this.submitButton.disabled = !this.fields.every((select) => select.value);
-    this.status.textContent = this.submitButton.disabled
-      ? ''
-      : 'Check the product’s full fitment requirements before ordering.';
+  }
+
+  normalize(value = '') {
+    return value.trim().replace(/\s+/g, ' ').toLocaleLowerCase('en-US');
+  }
+
+  showResults() {
+    this.results.replaceChildren();
+    const destinations = new Set();
+    this.matchingRows(this.fields.length).forEach((row) => {
+      if (!row.get('destination')?.trim()) return;
+      let destination;
+      try { destination = new URL(row.get('destination'), location.origin); } catch { return; }
+      if (!['https:', 'http:'].includes(destination.protocol) || destination.origin !== location.origin) return;
+      const label = ['year', 'make', 'model', 'trim'].map((key) => row.get(key)).join(' ');
+      const identity = `${label}:${destination.href}`;
+      if (destinations.has(identity)) return;
+      destinations.add(identity);
+      const item = document.createElement('li');
+      const link = document.createElement('a');
+      link.className = 'rw-text-link';
+      link.href = destination.href;
+      link.textContent = `View parts for ${label}`;
+      item.append(link);
+      this.results.append(item);
+    });
+    this.status.textContent = destinations.size
+      ? 'Catalog matches found. Choose your exact configuration and check the full part specifications.'
+      : 'We do not have a verified match for this vehicle yet. Send us your setup details before choosing a part.';
+    const support = new URL(this.dataset.supportUrl, location.origin);
+    support.searchParams.set('vehicle', this.fields.map((field) => field.value.trim()).filter(Boolean).join(' '));
+    support.hash = 'contact';
+    this.querySelector('[data-fitment-support]').href = support.href;
+    this.result.hidden = false;
   }
 }
 if (!customElements.get('rw-fitment')) customElements.define('rw-fitment', RaceworksFitment);
@@ -101,6 +131,9 @@ class BxrCarousel extends HTMLElement {
     const listen = (target, name, handler) =>
       target.addEventListener(name, handler, { signal: this.controller.signal });
     this.dots.forEach((dot, index) => listen(dot, 'click', () => this.select(index, true)));
+    this.querySelectorAll('[data-slide-step]').forEach((button) =>
+      listen(button, 'click', () => this.select(this.index + Number(button.dataset.slideStep), true)),
+    );
     this.playback = this.querySelector('[data-playback]');
     if (this.playback)
       listen(this.playback, 'click', () => {
@@ -201,3 +234,18 @@ class BxrCarousel extends HTMLElement {
   }
 }
 if (!customElements.get('bxr-carousel')) customElements.define('bxr-carousel', BxrCarousel);
+
+// Carry only the visitor's vehicle/topic into the contact form. Never submit it automatically.
+function prefillBxrContact() {
+  const form = document.querySelector('.bxr-contact-form');
+  if (!form) return;
+  const query = new URLSearchParams(location.search);
+  const vehicle = query.get('vehicle')?.slice(0, 300);
+  const topic = query.get('topic');
+  const message = form.querySelector('textarea[name="contact[body]"]');
+  const topicField = form.querySelector('[name="contact[Topic]"]');
+  if (vehicle && message && !message.value) message.value = `Vehicle: ${vehicle}\n\nPart / wheel specifications:\n\nMy question:\n`;
+  if (topic && topicField && [...topicField.options].some((option) => option.value === topic)) topicField.value = topic;
+}
+prefillBxrContact();
+document.addEventListener('shopify:section:load', prefillBxrContact);

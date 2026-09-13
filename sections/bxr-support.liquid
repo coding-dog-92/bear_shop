@@ -1,6 +1,6 @@
 <section class="bxr-support"><div class="bxr-page-intro rw-gutter"><p class="rw-eyebrow">{{ section.settings.eyebrow | escape }}</p><h1>{{ section.settings.heading | escape }}</h1><div class="bxr-page-lede">{{ section.settings.introduction }}</div></div>
   <div class="bxr-support-grid rw-gutter">
-    <div class="bxr-support-form"><h2>{{ section.settings.form_heading | escape }}</h2><p>{{ section.settings.form_intro | escape }}</p>
+    <div class="bxr-support-form" id="contact"><h2>{{ section.settings.form_heading | escape }}</h2><p>{{ section.settings.form_intro | escape }}</p>
       {% assign form_id = 'BXRContact-' | append: section.id %}
       {% form 'contact', id: form_id, class: 'bxr-contact-form' %}
         {% if form.posted_successfully? %}<div class="bxr-form-notice" role="status" tabindex="-1" autofocus>{{ section.settings.success_message | escape }}</div>{% elsif form.errors %}<div class="bxr-form-notice" role="alert">{{ form.errors | default_errors }}</div>{% endif %}

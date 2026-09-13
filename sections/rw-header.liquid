@@ -1,7 +1,7 @@
 <header class="rw-header">
-  <a class="rw-brand" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+  <a class="rw-brand" href="{{ routes.root_url }}" aria-label="{{ section.settings.brand | escape }} home">
     {% if section.settings.logo != blank %}
-      {{ section.settings.logo | image_url: width: 480 | image_tag: widths: '180, 240, 360, 480', sizes: '220px', alt: shop.name }}
+      {{ section.settings.logo | image_url: width: 480 | image_tag: widths: '180, 240, 360, 480', sizes: '220px', alt: section.settings.brand }}
     {% else %}{{ section.settings.brand | escape }}{% endif %}
   </a>
   <nav class="rw-desktop-nav" aria-label="Main navigation">

@@ -11,6 +11,7 @@
           assign priority = 'high'
         endif
       %}
+      {% capture primary_destination %}{% if block.settings.primary_link != blank %}{{ block.settings.primary_link }}{% elsif block.settings.category != blank and block.settings.category != 'all' %}{% render 'bxr-category-url', category: block.settings.category, settings: settings %}{% else %}{{ routes.all_products_collection_url }}{% endif %}{% endcapture %}
       <section class="rw-hero rw-slide" id="BXRSlide-{{ section.id }}-{{ block.id }}" role="group" aria-roledescription="slide" aria-label="{{ forloop.index }} of {{ section.blocks.size }}" data-slide data-block-id="{{ block.id }}" {% unless forloop.first %}hidden inert{% endunless %} {{ block.shopify_attributes }}>
         <picture class="rw-hero-media">
           {% if block.settings.mobile_image != blank %}
@@ -25,7 +26,7 @@
           {% if forloop.first %}<h1 class="rw-hero-title">{% else %}<h2 class="rw-hero-title">{% endif %}<span>{{ block.settings.line_1 | escape }}</span><span>{{ block.settings.line_2 | escape }}</span><span>{{ block.settings.line_3 | escape }}</span>{% if forloop.first %}</h1>{% else %}</h2>{% endif %}
           <p>{{ block.settings.description | escape }}</p>
           <div class="rw-actions">
-            <a class="rw-button" href="{{ block.settings.primary_link | default: routes.all_products_collection_url }}">{{ block.settings.primary_label | escape }}{% render 'rw-icon', name: 'arrow' %}</a>
+            <a class="rw-button" href="{{ primary_destination | strip }}">{{ block.settings.primary_label | escape }}{% render 'rw-icon', name: 'arrow' %}</a>
             {% if block.settings.secondary_label != blank %}<a class="rw-text-link" href="{{ block.settings.secondary_link | default: '#rw-fitment' }}">{{ block.settings.secondary_label | escape }}{% render 'rw-icon', name: 'arrow' %}</a>{% endif %}
           </div>
         </div>
@@ -34,7 +35,9 @@
   </div>
   {% if section.blocks.size > 1 %}
     <div class="rw-carousel-controls" hidden>
+      <button type="button" data-slide-step="-1" aria-label="Previous slide"><span class="bxr-arrow-back">{% render 'rw-icon', name: 'arrow' %}</span></button>
       <div class="rw-carousel-dots" aria-label="Choose a slide">{% for block in section.blocks %}<button type="button" data-slide-to="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}: {{ block.settings.line_1 | escape }} {{ block.settings.line_2 | escape }} {{ block.settings.line_3 | escape }}" aria-controls="BXRSlide-{{ section.id }}-{{ block.id }}" {% if forloop.first %}aria-current="true"{% endif %}><span class="rw-pagination-dot" aria-hidden="true"></span></button>{% endfor %}</div>
+      <button type="button" data-slide-step="1" aria-label="Next slide">{% render 'rw-icon', name: 'arrow' %}</button>
       {% if section.settings.autoplay %}<button type="button" data-playback aria-label="Pause slideshow"><span data-pause-icon>{% render 'rw-icon', name: 'pause' %}</span><span data-play-icon hidden>{% render 'rw-icon', name: 'play' %}</span></button>{% endif %}
     </div>
     <p class="visually-hidden" data-slide-status aria-live="polite" aria-atomic="true"></p>
@@ -55,7 +58,7 @@
       "type": "checkbox",
       "id": "autoplay",
       "label": "Auto-rotate slides",
-      "default": true
+      "default": false
     },
     {
       "type": "range",
@@ -123,6 +126,10 @@
           "type": "url",
           "id": "primary_link",
           "label": "Primary destination"
+        },
+        {
+          "type": "select", "id": "category", "label": "Default shopping destination",
+          "options": [{"value":"all","label":"All parts"},{"value":"tires","label":"Racing tires"},{"value":"brakes","label":"Braking components"}], "default":"all"
         },
         {
           "type": "text",

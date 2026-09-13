@@ -1,6 +1,6 @@
 # BXR Competition — Shopify theme
 
-Circuit Cinema 1.2.3. A native Shopify theme based on Dawn for racing tires and braking components.
+Circuit Cinema 1.3.0. A native Shopify theme based on Dawn for racing tires and braking components.
 
 ## Connect in Shopify
 
@@ -20,7 +20,7 @@ The Shopify theme folders are at the repository root. No build, ZIP extraction, 
 - **Edit theme → BXR header**: select the tire/brake collections; leave Menu blank to use the included navigation.
 - **BXR cinematic slideshow**: edit the three slides, imagery, copy and button destinations.
 - **Settings → Customer accounts**: enable sign-in links; keep Show customer account link enabled in BXR header.
-- Hide BXR vehicle finder until you have verified vehicle-to-product fitment mappings.
+- **BXR vehicle finder → Add block → Verified vehicle mapping**: enter supplier-verified year, make, model, optional trim and a matching product or collection destination. Without a verified match, visitors can carry their vehicle details into the Support form.
 - Guides, About and Support have built-in routes and optional page templates; select canonical pages under **Theme settings → BXR content destinations**.
 - The Support form delivers to **Settings → Notifications → Sender email**. The public support email setting only changes displayed text.
 
@@ -44,6 +44,17 @@ Release checks: 9 tests passed; Shopify Theme Check reported 0 errors and 11 inh
 ## License
 
 Based on Shopify Dawn. See LICENSE.md for the upstream MIT license.
+
+## 1.3.0 homepage
+
+- Homepage order: slideshow, category cards, vehicle finder, featured products, BXR brand and support, technical guides; shared navigation and footer frame the page.
+- Slideshow defaults to manual navigation with small dots, previous/next controls and touch swiping. Image buttons lead to products; the entire image is not a link. Enabling autoplay in the editor restores the required pause control.
+- Category names take priority over slogans. **Theme settings → BXR store & catalog** sets shared collection destinations or exact product types. The defaults use Shopify's native type collections for `Racing tires` and `Braking systems`, matching the test CSV. Explicit section destinations take precedence.
+- Featured products load their price styles directly and display product type and variant count. The existing Featured parts collection selection is preserved.
+- Vehicle suggestions and results come only from configured verified fitment blocks (up to 50). Year, make and model are required; leaving trim blank lists every matching verified trim. Results never infer compatibility from a product title. This editor mapping is suitable for a small catalog; a large supplier fitment dataset needs a dedicated catalog integration.
+- The Support form accepts vehicle and supported topic query parameters to prefill an enquiry, without submitting it. Empty or external fitment destinations are ignored.
+- **BXR brand & support** contains editable brand copy and guide/contact links. **BXR footer** accepts an optional public email and contact hours. Shipping/returns links use published policies, or offer a support enquiry until policies are configured.
+- Mobile layouts use a two-column vehicle form, horizontally scrollable product cards, stacked brand/guides and a compact footer. Header and carousel controls retain 44 px touch targets.
 
 
 ## 1.2.3 storefront recovery

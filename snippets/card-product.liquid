@@ -20,6 +20,10 @@
   Usage:
   {% render 'card-product', show_vendor: section.settings.show_vendor %}
 {% endcomment %}
+{%- liquid
+  assign card_style = settings.card_style | default: 'standard'
+  assign card_color_scheme = settings.card_color_scheme | default: 'scheme-2'
+-%}
 {%- unless skip_styles -%}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
@@ -45,22 +49,22 @@
     <div class="card-wrapper product-card-wrapper underline-links-hover">
       <div
         class="
-          card card--{{ settings.card_style }}
+          card card--{{ card_style }}
           {% if card_product.featured_media %} card--media{% else %} card--text{% endif %}
-          {% if settings.card_style == 'card' %} color-{{ settings.card_color_scheme }} gradient{% endif %}
+          {% if card_style == 'card' %} color-{{ card_color_scheme }} gradient{% endif %}
           {% if image_shape and image_shape != 'default' %} card--shape{% endif %}
           {% if extend_height %} card--extend-height{% endif %}
-          {% if card_product.featured_media == nil and settings.card_style == 'card' %} ratio{% endif %}
+          {% if card_product.featured_media == nil and card_style == 'card' %} ratio{% endif %}
           {% if horizontal_class %} card--horizontal{% endif %}
         "
         style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
       >
         <div
-          class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }} gradient{% endif %}{% if card_product.featured_media or settings.card_style == 'standard' %} ratio{% endif %}"
+          class="card__inner {% if card_style == 'standard' %}color-{{ card_color_scheme }} gradient{% endif %}{% if card_product.featured_media or card_style == 'standard' %} ratio{% endif %}"
           style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
         >
           {%- if card_product.featured_media -%}
-            <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
+            <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ card_color_scheme }} gradient{% endif %}">
               <div class="media media--transparent media--hover-effect">
                 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
                 <img
@@ -112,7 +116,7 @@
             <div class="card__information">
               <h3
                 class="card__heading"
-                {% if card_product.featured_media == null and settings.card_style == 'standard' %}
+                {% if card_product.featured_media == null and card_style == 'standard' %}
                   id="title-{{ section_id }}-{{ card_product.id }}"
                 {% endif %}
               >
@@ -148,8 +152,8 @@
         <div class="card__content">
           <div class="card__information">
             <h3
-              class="card__heading{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}"
-              {% if card_product.featured_media or settings.card_style == 'card' %}
+              class="card__heading{% if card_product.featured_media or card_style == 'standard' %} h5{% endif %}"
+              {% if card_product.featured_media or card_style == 'card' %}
                 id="title-{{ section_id }}-{{ card_product.id }}"
               {% endif %}
             >
@@ -582,18 +586,18 @@
   <div class="card-wrapper product-card-wrapper underline-links-hover">
     <div
       class="
-        card card--{{ settings.card_style }}
+        card card--{{ card_style }}
         {% if extend_height %} card--extend-height{% endif %}
         {% if image_shape and image_shape != 'default' %} card--shape{% endif %}
-        {% if settings.card_style == 'card' %} color-{{ settings.card_color_scheme }} gradient{% endif %}
+        {% if card_style == 'card' %} color-{{ card_color_scheme }} gradient{% endif %}
       "
       style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
     >
       <div
-        class="card__inner{% if settings.card_style == 'standard' %} color-{{ settings.card_color_scheme }} gradient{% endif %} ratio"
+        class="card__inner{% if card_style == 'standard' %} color-{{ card_color_scheme }} gradient{% endif %} ratio"
       >
         <div
-          class="card__media {% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}"
+          class="card__media {% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ card_color_scheme }} gradient{% endif %}"
         >
           <div
             class="media media--transparent"
@@ -608,7 +612,7 @@
       </div>
       <div class="card__content">
         <div class="card__information">
-          <h3 class="card__heading card__heading--placeholder{% if settings.card_style == 'standard' %} h5{% endif %}">
+          <h3 class="card__heading card__heading--placeholder{% if card_style == 'standard' %} h5{% endif %}">
             <a role="link" aria-disabled="true" class="full-unstyled-link">
               {{ 'onboarding.product_title' | t }}
             </a>

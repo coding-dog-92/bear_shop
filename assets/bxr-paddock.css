@@ -196,3 +196,8 @@ body.bxr-dialog-open { overflow:hidden; }
  .rw-featured .rw-product-card:last-child:nth-child(odd):not(:first-child) { grid-column:1/-1; }
  .rw-featured .rw-product-card:last-child:nth-child(odd):not(:first-child) .rw-product-image { aspect-ratio:2; }
 }
+
+/* Keep the primary purchase action distinct from accelerated payment options. */
+.product-form__submit { background:var(--rw-ink); color:var(--rw-paper); border:1px solid var(--rw-ink); }
+.product-form__submit:hover { background:#343633; }
+.product-form__submit:focus-visible { outline:2px solid var(--rw-red); outline-offset:4px; }

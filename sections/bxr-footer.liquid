@@ -1,0 +1,26 @@
+<footer class="bxr-footer rw-gutter"><div class="bxr-footer-top"><div><a class="rw-brand" href="{{ routes.root_url }}">{{ section.settings.brand | escape }}</a><p>{{ section.settings.description | escape }}</p></div><nav aria-label="Footer shop"><p class="rw-eyebrow">SHOP</p><a href="{{ routes.all_products_collection_url }}">All parts</a><a href="{{ routes.search_url }}?type=product&amp;q=tire">Racing tires</a><a href="{{ routes.search_url }}?type=product&amp;q=brake">Braking systems</a></nav><nav aria-label="Footer information"><p class="rw-eyebrow">BXR COMPETITION</p><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}">Guides</a><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'about' %}">About BXR</a><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}">Support</a>{% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">My account</a>{% endif %}</nav></div><div class="bxr-footer-bottom"><small>&copy; {{ 'now' | date: '%Y' }} {{ section.settings.brand | escape }}</small><nav aria-label="Store policies">{% for policy in shop.policies %}{% if policy != blank %}<a href="{{ policy.url }}">{{ policy.title | escape }}</a>{% endif %}{% endfor %}</nav>{% if section.settings.show_payments %}<ul class="bxr-payment-icons" role="list">{% for type in shop.enabled_payment_types %}<li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>{% endfor %}</ul>{% endif %}</div></footer>
+{% schema %}
+{
+  "name": "BXR footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand",
+      "label": "Brand",
+      "default": "BXR Competition"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "Racing tires. Braking components. Your next chapter on the circuit."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payments",
+      "label": "Show enabled payment methods",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

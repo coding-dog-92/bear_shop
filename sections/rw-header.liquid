@@ -1,0 +1,73 @@
+<header class="rw-header">
+  <a class="rw-brand" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+    {% if section.settings.logo != blank %}
+      {{ section.settings.logo | image_url: width: 480 | image_tag: widths: '180, 240, 360, 480', sizes: '220px', alt: shop.name }}
+    {% else %}{{ section.settings.brand | escape }}{% endif %}
+  </a>
+  <nav class="rw-desktop-nav" aria-label="Main navigation">
+    {% render 'rw-nav', menu: section.settings.menu, routes: routes, tires_collection: section.settings.tires_collection, brakes_collection: section.settings.brakes_collection %}
+  </nav>
+  <form action="{{ routes.search_url }}" method="get" role="search" class="rw-search">
+    <label class="visually-hidden" for="RWSearch-{{ section.id }}">Search products</label>
+    <button type="submit" class="rw-icon-button" aria-label="Search">{% render 'rw-icon', name: 'search' %}</button>
+    <input id="RWSearch-{{ section.id }}" type="search" name="q" placeholder="What are you looking for?" value="{{ search.terms | escape }}" required>
+    <input type="hidden" name="type" value="product">
+    <input type="hidden" name="options[prefix]" value="last">
+  </form>
+  {% if section.settings.show_account and shop.customer_accounts_enabled %}
+    <a class="rw-account rw-icon-button" href="{{ routes.account_url }}" aria-label="Account" title="Sign in / My account">
+      {% render 'rw-icon', name: 'account' %}
+    </a>
+  {% endif %}
+  <a class="rw-cart rw-icon-button" href="{{ routes.cart_url }}" id="cart-icon-bubble" aria-label="{{ 'templates.cart.cart' | t }} ({{ cart.item_count }})">
+    {% render 'rw-icon', name: 'cart-empty' %}
+    {% if cart.item_count > 0 %}<span class="rw-cart-count">{{ cart.item_count }}</span>{% endif %}
+  </a>
+  <details class="rw-mobile-nav">
+    <summary class="rw-icon-button" aria-label="Open navigation">{% render 'rw-icon', name: 'hamburger' %}</summary>
+    <nav aria-label="Mobile navigation">{% render 'rw-nav', menu: section.settings.menu, routes: routes, tires_collection: section.settings.tires_collection, brakes_collection: section.settings.brakes_collection %}</nav>
+  </details>
+</header>
+
+{% schema %}
+{
+  "name": "BXR header",
+  "tag": "div",
+  "class": "rw-header-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand",
+      "label": "Brand name",
+      "default": "BXR Competition"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "collection",
+      "id": "tires_collection",
+      "label": "Tires collection (fallback menu)"
+    },
+    {
+      "type": "collection",
+      "id": "brakes_collection",
+      "label": "Brakes collection (fallback menu)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Show customer account link",
+      "default": true,
+      "info": "Enable customer accounts in Shopify Settings > Customer accounts."
+    }
+  ]
+}
+{% endschema %}

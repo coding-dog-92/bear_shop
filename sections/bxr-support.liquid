@@ -1,0 +1,132 @@
+<section class="bxr-support"><div class="bxr-page-intro rw-gutter"><p class="rw-eyebrow">{{ section.settings.eyebrow | escape }}</p><h1>{{ section.settings.heading | escape }}</h1><div class="bxr-page-lede">{{ section.settings.introduction }}</div></div>
+  <div class="bxr-support-grid rw-gutter">
+    <div class="bxr-support-form"><h2>{{ section.settings.form_heading | escape }}</h2><p>{{ section.settings.form_intro | escape }}</p>
+      {% assign form_id = 'BXRContact-' | append: section.id %}
+      {% form 'contact', id: form_id, class: 'bxr-contact-form' %}
+        {% if form.posted_successfully? %}<div class="bxr-form-notice" role="status" tabindex="-1" autofocus>{{ section.settings.success_message | escape }}</div>{% elsif form.errors %}<div class="bxr-form-notice" role="alert">{{ form.errors | default_errors }}</div>{% endif %}
+        <div class="bxr-form-row"><div><label for="{{ form_id }}-name">Name</label><input id="{{ form_id }}-name" name="contact[name]" type="text" autocomplete="name" value="{{ form.name | default: customer.name | escape }}" required></div><div><label for="{{ form_id }}-email">Email</label><input id="{{ form_id }}-email" name="contact[email]" type="email" autocomplete="email" value="{{ form.email | default: customer.email | escape }}" required {% if form.errors contains 'email' %}aria-invalid="true"{% endif %}></div></div>
+        <div class="bxr-form-row"><div><label for="{{ form_id }}-topic">What can we help with?</label><select id="{{ form_id }}-topic" name="contact[Topic]"><option>Product &amp; fitment</option><option>Existing order</option><option>Shipping &amp; returns</option><option>General enquiry</option></select></div><div><label for="{{ form_id }}-order">Order number <span>(optional)</span></label><input id="{{ form_id }}-order" name="contact[Order number]" type="text" value="{{ form['Order number'] | escape }}"></div></div>
+        <label for="{{ form_id }}-body">Your message</label><textarea id="{{ form_id }}-body" name="contact[body]" rows="6" placeholder="For fitment questions, include your vehicle, wheel details and the part you are considering." required>{{ form.body | escape }}</textarea>
+        {% if shop.privacy_policy != blank %}<p class="bxr-form-policy">Read our <a href="{{ shop.privacy_policy.url }}">privacy policy</a> for how we handle your information.</p>{% endif %}
+        <button class="rw-button" type="submit">Send message{% render 'rw-icon', name: 'arrow' %}</button>
+      {% endform %}
+    </div>
+    <aside class="bxr-support-aside"><p class="rw-eyebrow">BEFORE YOU SEND</p><h2>{{ section.settings.aside_heading | escape }}</h2><div>{{ section.settings.aside_body }}</div>{% if shop.customer_accounts_enabled %}<a class="rw-text-link" href="{{ routes.account_url }}">View your account{% render 'rw-icon', name: 'arrow' %}</a>{% endif %}
+      {% if section.settings.email != blank %}<p><a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a></p>{% endif %}
+    </aside>
+  </div>
+  <div class="bxr-faq rw-gutter"><p class="rw-eyebrow">USEFUL TO KNOW</p><h2>{{ section.settings.faq_heading | escape }}</h2>{% for block in section.blocks %}<details {{ block.shopify_attributes }}><summary>{{ block.settings.question | escape }}{% render 'rw-icon', name: 'plus' %}</summary><div class="rte">{{ block.settings.answer }}</div></details>{% endfor %}
+  {% for policy in shop.policies %}{% if policy != blank %}<a class="bxr-policy-link" href="{{ policy.url }}">{{ policy.title | escape }}</a>{% endif %}{% endfor %}</div>
+</section>
+{% schema %}
+{
+  "name": "BXR support",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "BXR SUPPORT"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Let\u2019s talk about your build."
+    },
+    {
+      "type": "richtext",
+      "id": "introduction",
+      "label": "Introduction",
+      "default": "<p>Questions about a part, your setup or an existing order? Start here.</p>"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form heading",
+      "default": "Send us a message."
+    },
+    {
+      "type": "text",
+      "id": "form_intro",
+      "label": "Form introduction",
+      "default": "The more detail you share, the easier it is to understand your question."
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Confirmation",
+      "default": "Thank you. Your message has been sent to BXR Competition."
+    },
+    {
+      "type": "text",
+      "id": "aside_heading",
+      "label": "Side heading",
+      "default": "Details make the difference."
+    },
+    {
+      "type": "richtext",
+      "id": "aside_body",
+      "label": "Side content",
+      "default": "<p>For product questions, have the part name or number ready, along with your vehicle and wheel specifications.</p><p>For order questions, include your order number. Please do not send payment card details.</p>"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Public support email (optional)"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "FAQ heading",
+      "default": "A few common questions."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BXR support",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How do I check whether a part fits?",
+            "answer": "<p>Compare the exact part specifications with your vehicle and current setup. Include the vehicle year, model, trim, axle position and wheel specifications when contacting us. Product images alone do not confirm compatibility.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Where can I find my order?",
+            "answer": "<p>Use the link in your order confirmation or sign in to your customer account to view your order. If you contact us about an order, include the order number and the email used at checkout.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Where can I read shipping and return information?",
+            "answer": "<p>Review the store\u2019s published shipping and refund policies before placing an order. Available policy links appear below and in the footer. If information about a specific item is unclear, contact us before ordering.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

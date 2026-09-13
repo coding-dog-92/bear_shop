@@ -1,0 +1,51 @@
+{
+  "sections": {
+    "main": {
+      "type": "bxr-guides",
+      "settings": {},
+      "blocks": {
+        "guide0": {
+          "type": "guide",
+          "settings": {
+            "anchor": "tires",
+            "topic": "Racing tires",
+            "heading": "Start at the contact patch.",
+            "artwork": "tires",
+            "image_alt": "Racing slick tires in a pit garage",
+            "body": "<p>The right tire starts with how and where you drive. Before comparing compounds, establish the dimensions and requirements of your car and wheels.</p><h3>Know your dimensions</h3><p>Record the full tire size, wheel diameter and width. Check the tire manufacturer\u2019s approved rim-width range, load requirements and clearance information for your exact application.</p><h3>Match the intended use</h3><p>Check whether the tire is intended for dry track use, wet conditions or road use. A racing slick should not be assumed to be road legal or suitable for standing water.</p><h3>Use the manufacturer\u2019s setup guidance</h3><p>Pressure targets, heat cycles and storage requirements vary by tire. Use the current instructions for the exact model, and record conditions and pressures with your installer or track support team.</p>"
+          }
+        },
+        "guide1": {
+          "type": "guide",
+          "settings": {
+            "anchor": "brakes",
+            "topic": "Braking systems",
+            "heading": "Think in systems.",
+            "artwork": "brakes",
+            "image_alt": "Red racing brake caliper and steel rotor",
+            "body": "<p>A caliper is one part of a matched system. Vehicle model alone is not enough to confirm that a brake component will fit.</p><h3>Confirm the application</h3><p>Check the vehicle year, model, trim, axle position and existing brake package. Record the manufacturer\u2019s part number and any modifications to the car.</p><h3>Check dimensions and clearance</h3><p>Rotor diameter and thickness, hat offset, mounting brackets, pad shape and wheel clearance all matter. Where supplied, use the manufacturer\u2019s wheel-clearance template before ordering.</p><h3>Plan the complete installation</h3><p>Confirm the required hardware, fluid compatibility and installation procedure with the component supplier. Have the system installed and checked by a qualified professional, following the exact product instructions.</p>"
+          }
+        },
+        "guide2": {
+          "type": "guide",
+          "settings": {
+            "anchor": "preparation",
+            "topic": "Track preparation",
+            "heading": "Arrive with a plan.",
+            "artwork": "guide",
+            "image_alt": "Close-up of textured racing tire rubber",
+            "body": "<p>A clear preparation routine helps you arrive ready to focus. Keep a record of the parts fitted to your car and the instructions that accompany them.</p><h3>Review before the event</h3><p>Check the event organiser\u2019s vehicle requirements and inspection process. Arrange a pre-event inspection with a qualified workshop and follow the relevant component service guidance.</p><h3>Bring the right information</h3><p>Keep tire and brake specifications, installation records and supplier contacts together. Note any fitment changes since the last event.</p><h3>Inspect and record</h3><p>Use manufacturer guidance for inspection limits, bedding procedures and maintenance. Record observations between sessions and ask a qualified professional to investigate unusual wear, vibration or changes in braking performance.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "guide0",
+        "guide1",
+        "guide2"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

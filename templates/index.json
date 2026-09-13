@@ -1,0 +1,128 @@
+{
+  "sections": {
+    "hero": {
+      "type": "rw-hero",
+      "settings": {},
+      "blocks": {
+        "circuit": {
+          "type": "slide",
+          "settings": {
+            "artwork": "hero"
+          }
+        },
+        "tires": {
+          "type": "slide",
+          "settings": {
+            "artwork": "slide-tires",
+            "line_1": "FIND",
+            "line_2": "YOUR",
+            "line_3": "EDGE.",
+            "description": "Your next lap starts at the contact patch.",
+            "primary_label": "Explore racing tires",
+            "primary_link": "/search?type=product&q=tire",
+            "secondary_label": "Read the tire guide",
+            "secondary_link": "/?view=bxr-guides#tires",
+            "image_alt": "Slick racing tires in a dark pit garage"
+          }
+        },
+        "brakes": {
+          "type": "slide",
+          "settings": {
+            "artwork": "slide-brakes",
+            "line_1": "PRECISION",
+            "line_2": "UNDER",
+            "line_3": "PRESSURE.",
+            "description": "Braking components for your next build.",
+            "primary_label": "Explore braking",
+            "primary_link": "/search?type=product&q=brake",
+            "secondary_label": "Check your setup",
+            "secondary_link": "/?view=bxr-guides#brakes",
+            "image_alt": "Red racing caliper with ventilated brake rotor"
+          }
+        }
+      },
+      "block_order": [
+        "circuit",
+        "tires",
+        "brakes"
+      ]
+    },
+    "fitment": {
+      "type": "rw-fitment",
+      "settings": {}
+    },
+    "categories": {
+      "type": "rw-categories",
+      "blocks": {
+        "tires": {
+          "type": "category",
+          "settings": {
+            "heading": "Grip starts here.",
+            "subtitle": "Racing tires",
+            "label": "Explore tires",
+            "link": "/search?type=product&q=tire"
+          }
+        },
+        "brakes": {
+          "type": "category",
+          "settings": {
+            "heading": "Make every braking point count.",
+            "subtitle": "Braking systems",
+            "label": "View brake systems",
+            "link": "/search?type=product&q=brake"
+          }
+        }
+      },
+      "block_order": [
+        "tires",
+        "brakes"
+      ],
+      "settings": {}
+    },
+    "featured": {
+      "type": "rw-featured",
+      "settings": {}
+    },
+    "guides": {
+      "type": "rw-guide",
+      "settings": {
+        "link": "/?view=bxr-guides"
+      },
+      "blocks": {
+        "tire": {
+          "type": "guide",
+          "settings": {
+            "title": "Start with tire size",
+            "body": "<p>Check the full tire size, wheel width range, load requirements and intended use. Use the tire manufacturer\u2019s current specifications before ordering.</p>"
+          }
+        },
+        "brake": {
+          "type": "guide",
+          "settings": {
+            "title": "Check the whole brake system",
+            "body": "<p>Calipers, rotors, pads and mounting brackets work as a system. Confirm axle position, rotor dimensions and wheel clearance with the supplier.</p>"
+          }
+        },
+        "setup": {
+          "type": "guide",
+          "settings": {
+            "title": "Prepare for your track day",
+            "body": "<p>Follow the component manufacturer\u2019s inspection and installation guidance. Have your setup checked by a qualified installer before use.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "tire",
+        "brake",
+        "setup"
+      ]
+    }
+  },
+  "order": [
+    "hero",
+    "fitment",
+    "categories",
+    "featured",
+    "guides"
+  ]
+}

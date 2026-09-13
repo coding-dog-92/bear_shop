@@ -1,0 +1,5 @@
+{% if image != blank %}
+  {{ image | image_url: width: 2400 | image_tag: widths: '400, 600, 900, 1200, 1700, 2400', sizes: sizes, loading: loading, fetchpriority: priority, alt: alt }}
+{% else %}
+  <img src="{{ fallback | asset_url }}" alt="{{ alt | escape }}" width="{{ width | default: 1200 }}" height="{{ height | default: 1000 }}" loading="{{ loading | default: 'lazy' }}"{% if priority != blank %} fetchpriority="{{ priority }}"{% endif %}>
+{% endif %}

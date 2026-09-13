@@ -1,0 +1,39 @@
+{
+  "sections": {
+    "main": {
+      "type": "bxr-about",
+      "settings": {},
+      "blocks": {
+        "value0": {
+          "type": "value",
+          "settings": {
+            "heading": "Grip.",
+            "body": "<p>The connection between your car and the circuit. Start with the right tire size, compound and intended use.</p>"
+          }
+        },
+        "value1": {
+          "type": "value",
+          "settings": {
+            "heading": "Control.",
+            "body": "<p>A brake setup is a system. Calipers, rotors, pads and wheel clearance belong in the same conversation.</p>"
+          }
+        },
+        "value2": {
+          "type": "value",
+          "settings": {
+            "heading": "Clarity.",
+            "body": "<p>Make considered choices. Understand the specifications, ask the right questions and build around your car.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "value0",
+        "value1",
+        "value2"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

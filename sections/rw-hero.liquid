@@ -1,0 +1,172 @@
+<bxr-carousel class="rw-carousel" role="region" aria-roledescription="carousel" aria-label="{{ section.settings.label | escape }}" data-autoplay="{{ section.settings.autoplay }}" data-interval="{{ section.settings.interval | times: 1000 }}">
+  <div class="rw-slides">
+    {% for block in section.blocks %}
+      {% liquid
+        assign artwork = block.settings.artwork | default: 'hero'
+        assign fallback = 'rw-' | append: artwork | append: '.webp'
+        assign loading = 'lazy'
+        assign priority = 'auto'
+        if forloop.first
+          assign loading = 'eager'
+          assign priority = 'high'
+        endif
+      %}
+      <section class="rw-hero rw-slide" id="BXRSlide-{{ section.id }}-{{ block.id }}" role="group" aria-roledescription="slide" aria-label="{{ forloop.index }} of {{ section.blocks.size }}" data-slide data-block-id="{{ block.id }}" {% unless forloop.first %}hidden inert{% endunless %} {{ block.shopify_attributes }}>
+        <picture class="rw-hero-media">
+          {% if block.settings.mobile_image != blank %}
+            <source media="(max-width: 749px)" srcset="{{ block.settings.mobile_image | image_url: width: 900 }}">
+          {% elsif block.settings.image == blank %}
+            {% if artwork == 'hero' %}<source media="(max-width: 749px)" srcset="{{ 'rw-hero-mobile.webp' | asset_url }}">
+            {% else %}<source media="(max-width: 749px)" srcset="{{ 'rw-' | append: artwork | append: '-mobile.webp' | asset_url }}">{% endif %}
+          {% endif %}
+          {% render 'rw-image', image: block.settings.image, fallback: fallback, alt: block.settings.image_alt, loading: loading, priority: priority, sizes: '100vw', width: 1920, height: 1040 %}
+        </picture>
+        <div class="rw-hero-content">
+          {% if forloop.first %}<h1 class="rw-hero-title">{% else %}<h2 class="rw-hero-title">{% endif %}<span>{{ block.settings.line_1 | escape }}</span><span>{{ block.settings.line_2 | escape }}</span><span>{{ block.settings.line_3 | escape }}</span>{% if forloop.first %}</h1>{% else %}</h2>{% endif %}
+          <p>{{ block.settings.description | escape }}</p>
+          <div class="rw-actions">
+            <a class="rw-button" href="{{ block.settings.primary_link | default: routes.all_products_collection_url }}">{{ block.settings.primary_label | escape }}{% render 'rw-icon', name: 'arrow' %}</a>
+            {% if block.settings.secondary_label != blank %}<a class="rw-text-link" href="{{ block.settings.secondary_link | default: '#rw-fitment' }}">{{ block.settings.secondary_label | escape }}{% render 'rw-icon', name: 'arrow' %}</a>{% endif %}
+          </div>
+        </div>
+      </section>
+    {% endfor %}
+  </div>
+  {% if section.blocks.size > 1 %}
+    <div class="rw-carousel-controls" hidden>
+      <div class="rw-carousel-dots" aria-label="Choose a slide">{% for block in section.blocks %}<button type="button" data-slide-to="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}: {{ block.settings.line_1 | escape }} {{ block.settings.line_2 | escape }} {{ block.settings.line_3 | escape }}" aria-controls="BXRSlide-{{ section.id }}-{{ block.id }}" {% if forloop.first %}aria-current="true"{% endif %}><span class="rw-pagination-dot" aria-hidden="true"></span></button>{% endfor %}</div>
+      {% if section.settings.autoplay %}<button type="button" data-playback aria-label="Pause slideshow"><span data-pause-icon>{% render 'rw-icon', name: 'pause' %}</span><span data-play-icon hidden>{% render 'rw-icon', name: 'play' %}</span></button>{% endif %}
+    </div>
+    <p class="visually-hidden" data-slide-status aria-live="polite" aria-atomic="true"></p>
+  {% endif %}
+</bxr-carousel>
+{% schema %}
+{
+  "name": "BXR cinematic slideshow",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Accessible label",
+      "default": "BXR highlights"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "interval",
+      "label": "Seconds between slides",
+      "min": 5,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "default": 7
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Desktop image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image description",
+          "default": "Silver race car on a circuit at sunset"
+        },
+        {
+          "type": "text",
+          "id": "line_1",
+          "label": "Headline line 1",
+          "default": "CONTROL"
+        },
+        {
+          "type": "text",
+          "id": "line_2",
+          "label": "Headline line 2",
+          "default": "EVERY"
+        },
+        {
+          "type": "text",
+          "id": "line_3",
+          "label": "Headline line 3",
+          "default": "CORNER."
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Supporting text",
+          "default": "Racing tires and braking components."
+        },
+        {
+          "type": "text",
+          "id": "primary_label",
+          "label": "Primary button",
+          "default": "Explore the collection"
+        },
+        {
+          "type": "url",
+          "id": "primary_link",
+          "label": "Primary destination"
+        },
+        {
+          "type": "text",
+          "id": "secondary_label",
+          "label": "Secondary link",
+          "default": "Find your fit"
+        },
+        {
+          "type": "url",
+          "id": "secondary_link",
+          "label": "Secondary destination"
+        },
+        {
+          "type": "select",
+          "id": "artwork",
+          "label": "Included photography",
+          "options": [
+            {
+              "value": "hero",
+              "label": "Circuit"
+            },
+            {
+              "value": "slide-tires",
+              "label": "Tires"
+            },
+            {
+              "value": "slide-brakes",
+              "label": "Brakes"
+            }
+          ],
+          "default": "hero"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BXR cinematic slideshow",
+      "blocks": [
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

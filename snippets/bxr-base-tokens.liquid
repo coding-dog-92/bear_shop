@@ -1,0 +1,51 @@
+{%- comment -%}
+  Shared storefront/password defaults. Missing or zero theme settings must never
+  produce zero root text or a division by zero in Dawn's inherited line heights.
+  Valid merchant typography and layout settings remain authoritative.
+{%- endcomment -%}
+{%- liquid
+  assign bxr_body_scale = 1.0
+  assign bxr_heading_scale = 1.0
+  if settings.body_scale > 0
+    assign bxr_body_scale = settings.body_scale | divided_by: 100.0
+  endif
+  if settings.heading_scale > 0
+    assign bxr_heading_scale = settings.heading_scale | divided_by: 100.0
+  endif
+  assign bxr_section_spacing = settings.spacing_sections | default: 0
+  assign bxr_mobile_spacing = bxr_section_spacing
+  if bxr_section_spacing >= 24
+    assign bxr_mobile_spacing = bxr_section_spacing | times: 0.7 | round | at_least: 20
+  endif
+-%}
+--font-body-family: {{ settings.type_body_font.family | default: 'Arial' }}, {{ settings.type_body_font.fallback_families | default: 'Helvetica, sans-serif' }};
+--font-body-style: {{ settings.type_body_font.style | default: 'normal' }};
+--font-body-weight: {{ settings.type_body_font.weight | default: 400 }};
+--font-body-weight-bold: {{ settings.type_body_font.weight | default: 400 | plus: 300 | at_most: 1000 }};
+--font-heading-family: {{ settings.type_header_font.family | default: 'Arial' }}, {{ settings.type_header_font.fallback_families | default: 'Helvetica, sans-serif' }};
+--font-heading-style: {{ settings.type_header_font.style | default: 'normal' }};
+--font-heading-weight: {{ settings.type_header_font.weight | default: 700 }};
+--font-body-scale: {{ bxr_body_scale }};
+--font-heading-scale: {{ bxr_heading_scale | divided_by: bxr_body_scale }};
+--page-width: {{ settings.page_width | default: 1440 | at_least: 750 | divided_by: 10.0 }}rem;
+--spacing-sections-desktop: {{ bxr_section_spacing }}px;
+--spacing-sections-mobile: {{ bxr_mobile_spacing }}px;
+--grid-desktop-vertical-spacing: {{ settings.spacing_grid_vertical | default: 28 }}px;
+--grid-desktop-horizontal-spacing: {{ settings.spacing_grid_horizontal | default: 20 }}px;
+--grid-mobile-vertical-spacing: {{ settings.spacing_grid_vertical | default: 28 | divided_by: 2 }}px;
+--grid-mobile-horizontal-spacing: {{ settings.spacing_grid_horizontal | default: 20 | divided_by: 2 }}px;
+{%- if settings.color_schemes == blank -%}
+  --color-background: 247, 247, 245;
+  --gradient-background: #f7f7f5;
+  --color-foreground: 17, 18, 17;
+  --color-shadow: 17, 18, 17;
+  --color-button: 216, 45, 22;
+  --color-button-text: 255, 255, 255;
+  --color-secondary-button: 247, 247, 245;
+  --color-secondary-button-text: 17, 18, 17;
+  --color-link: 17, 18, 17;
+  --color-badge-foreground: 17, 18, 17;
+  --color-badge-background: 247, 247, 245;
+  --color-badge-border: 17, 18, 17;
+  --payment-terms-background-color: #f7f7f5;
+{%- endif -%}

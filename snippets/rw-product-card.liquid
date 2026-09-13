@@ -1,0 +1,10 @@
+<article class="rw-product-card">
+  <a class="rw-product-image" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+    {% if product.featured_image != blank %}
+      {{ product.featured_image | image_url: width: 1000 | image_tag: widths: '300, 500, 750, 1000', sizes: '(min-width: 750px) 30vw, 50vw', loading: 'lazy', alt: product.title }}
+    {% else %}<span class="rw-no-image">{{ product.title | escape }}</span>{% endif %}
+  </a>
+  <h3><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+  {% if show_price %}<div class="rw-product-price">{% render 'price', product: product, use_variant: false %}</div>{% endif %}
+  <a class="rw-text-link" href="{{ product.url }}">View details{% render 'rw-icon', name: 'arrow' %}</a>
+</article>

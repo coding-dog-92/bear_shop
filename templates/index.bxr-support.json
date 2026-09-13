@@ -1,0 +1,39 @@
+{
+  "sections": {
+    "main": {
+      "type": "bxr-support",
+      "settings": {},
+      "blocks": {
+        "faq0": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I check whether a part fits?",
+            "answer": "<p>Compare the exact part specifications with your vehicle and current setup. Include the vehicle year, model, trim, axle position and wheel specifications when contacting us. Product images alone do not confirm compatibility.</p>"
+          }
+        },
+        "faq1": {
+          "type": "faq",
+          "settings": {
+            "question": "Where can I find my order?",
+            "answer": "<p>Use the link in your order confirmation or sign in to your customer account to view your order. If you contact us about an order, include the order number and the email used at checkout.</p>"
+          }
+        },
+        "faq2": {
+          "type": "faq",
+          "settings": {
+            "question": "Where can I read shipping and return information?",
+            "answer": "<p>Review the store\u2019s published shipping and refund policies before placing an order. Available policy links appear below and in the footer. If information about a specific item is unclear, contact us before ordering.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq0",
+        "faq1",
+        "faq2"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

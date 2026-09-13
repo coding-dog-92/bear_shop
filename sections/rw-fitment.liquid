@@ -1,0 +1,104 @@
+<section class="rw-fitment rw-gutter" id="rw-fitment" aria-labelledby="RWFitment-{{ section.id }}">
+  <h2 id="RWFitment-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+  {% assign valid_count = 0 %}
+  {% for block in section.blocks %}{% if block.settings.year != blank and block.settings.make != blank and block.settings.model != blank and block.settings.trim != blank and block.settings.destination != blank %}{% assign valid_count = valid_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if valid_count > 0 %}
+    <rw-fitment>
+      <form class="rw-fitment-form">
+        {% assign fields = 'Year,Make,Model,Trim' | split: ',' %}
+        {% for label in fields %}
+          <label class="rw-select-wrap"><span class="visually-hidden">{{ label }}</span><select aria-label="{{ label }}" data-field="{{ label | downcase }}" required disabled><option value="">{{ label }}</option></select>{% render 'rw-icon', name: 'caret' %}</label>
+        {% endfor %}
+        <button class="rw-button" type="submit" disabled>Start search</button>
+      </form>
+      <ul hidden data-vehicle-data>
+        {% for block in section.blocks %}
+          {% if block.settings.year != blank and block.settings.make != blank and block.settings.model != blank and block.settings.trim != blank and block.settings.destination != blank %}
+            <li data-year="{{ block.settings.year | escape }}" data-make="{{ block.settings.make | escape }}" data-model="{{ block.settings.model | escape }}" data-trim="{{ block.settings.trim | escape }}" data-destination="{{ block.settings.destination | escape }}" {{ block.shopify_attributes }}></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      <p class="rw-fitment-status" aria-live="polite"></p>
+      <noscript><p>Browse the collections below and confirm compatibility on each product page.</p></noscript>
+    </rw-fitment>
+  {% else %}
+    <div class="rw-fitment-empty">
+      <p>{{ section.settings.empty_text | escape }}</p>
+      <a class="rw-button" href="{{ section.settings.browse_link | default: routes.all_products_collection_url }}">Browse parts{% render 'rw-icon', name: 'arrow' %}</a>
+    </div>
+  {% endif %}
+  {% if section.settings.size_link != blank %}<div class="rw-fitment-secondary"><a class="rw-text-link" href="{{ section.settings.size_link }}">Or browse by tire size{% render 'rw-icon', name: 'arrow' %}</a></div>{% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "BXR vehicle finder",
+  "max_blocks": 50,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Add one verified vehicle and destination collection per block. The theme does not infer fitment. For a large catalog, replace this section with a fitment app block or integration."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Find parts for your car"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Text before fitment is configured",
+      "default": "Explore tires and braking components. Confirm vehicle compatibility on the product page."
+    },
+    {
+      "type": "url",
+      "id": "browse_link",
+      "label": "Browse destination"
+    },
+    {
+      "type": "url",
+      "id": "size_link",
+      "label": "Tire size collection or page"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "vehicle",
+      "name": "Verified vehicle mapping",
+      "settings": [
+        {
+          "type": "text",
+          "id": "year",
+          "label": "Year"
+        },
+        {
+          "type": "text",
+          "id": "make",
+          "label": "Make"
+        },
+        {
+          "type": "text",
+          "id": "model",
+          "label": "Model"
+        },
+        {
+          "type": "text",
+          "id": "trim",
+          "label": "Trim / submodel"
+        },
+        {
+          "type": "url",
+          "id": "destination",
+          "label": "Verified collection URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BXR vehicle finder"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,16 @@
+{% if menu != blank %}
+  {% for link in menu.links %}
+    {% if link.links != blank %}
+      <details class="rw-nav-dropdown"><summary>{{ link.title | escape }}{% render 'rw-icon', name: 'caret' %}</summary><div>{% for child in link.links %}<a href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title | escape }}</a>{% for grandchild in child.links %}<a class="rw-nav-subitem" href="{{ grandchild.url }}">{{ grandchild.title | escape }}</a>{% endfor %}{% endfor %}</div></details>
+    {% else %}<a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>{% endif %}
+  {% endfor %}
+{% else %}
+  <details class="rw-nav-dropdown"><summary>Shop{% render 'rw-icon', name: 'caret' %}</summary><div>
+    <a href="{{ tires_collection.url | default: '/search?type=product&q=tire' }}">Racing tires</a>
+    <a href="{{ brakes_collection.url | default: '/search?type=product&q=brake' }}">Braking systems</a>
+    <a href="{{ routes.all_products_collection_url }}">All parts</a>
+  </div></details>
+  <a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}">Guides</a>
+  <a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'about' %}">About BXR</a>
+  <a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}">Support</a>
+{% endif %}

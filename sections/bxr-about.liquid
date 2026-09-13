@@ -1,0 +1,118 @@
+<section class="bxr-about"><div class="bxr-page-intro rw-gutter"><p class="rw-eyebrow">{{ section.settings.eyebrow | escape }}</p><h1>{{ section.settings.heading | escape }}</h1><div class="bxr-page-lede">{{ section.settings.introduction }}</div></div>
+  <div class="bxr-about-image">{% render 'rw-image', image: section.settings.image, fallback: 'rw-hero.webp', alt: section.settings.image_alt, loading: 'eager', sizes: '100vw', width: 1704, height: 923 %}</div>
+  <div class="bxr-about-story rw-gutter"><h2>{{ section.settings.story_heading | escape }}</h2><div>{{ section.settings.story }}</div></div>
+  <div class="bxr-values rw-gutter">{% for block in section.blocks %}<article {{ block.shopify_attributes }}><span class="rw-eyebrow">0{{ forloop.index }}</span><h3>{{ block.settings.heading | escape }}</h3><div>{{ block.settings.body }}</div></article>{% endfor %}</div>
+  <div class="bxr-page-cta rw-gutter"><div><p class="rw-eyebrow">YOUR NEXT BUILD</p><h2>{{ section.settings.cta_heading | escape }}</h2></div><a class="rw-button" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">{{ section.settings.cta_label | escape }}{% render 'rw-icon', name: 'arrow' %}</a></div>
+</section>
+{% schema %}
+{
+  "name": "BXR about",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "ABOUT BXR COMPETITION"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "For the pursuit of a better lap."
+    },
+    {
+      "type": "richtext",
+      "id": "introduction",
+      "label": "Introduction",
+      "default": "<p>Racing tires. Braking components. A sharper focus on the parts that connect you to the circuit.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Editorial image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image description",
+      "default": "Silver race car at sunset on a racing circuit"
+    },
+    {
+      "type": "text",
+      "id": "story_heading",
+      "label": "Story heading",
+      "default": "Every corner starts with a choice."
+    },
+    {
+      "type": "richtext",
+      "id": "story",
+      "label": "Brand story",
+      "default": "<p>BXR Competition is built around a simple idea: choosing parts should feel as considered as preparing the car itself.</p><p>We bring racing tires and braking components into focus, with space to explore the details and understand your setup. From the first research session to the next build, this is a place for people who care about the drive.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "Call to action heading",
+      "default": "Build your next chapter."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Explore the collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button destination"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Brand principle",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "BXR about",
+      "blocks": [
+        {
+          "type": "value",
+          "settings": {
+            "heading": "Grip.",
+            "body": "<p>The connection between your car and the circuit. Start with the right tire size, compound and intended use.</p>"
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "heading": "Control.",
+            "body": "<p>A brake setup is a system. Calipers, rotors, pads and wheel clearance belong in the same conversation.</p>"
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "heading": "Clarity.",
+            "body": "<p>Make considered choices. Understand the specifications, ask the right questions and build around your car.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

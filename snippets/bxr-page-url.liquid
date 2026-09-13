@@ -1,0 +1,15 @@
+{%- liquid
+  case destination
+    when 'guides'
+      assign target = settings.bxr_guides_page
+    when 'about'
+      assign target = settings.bxr_about_page
+    when 'support'
+      assign target = settings.bxr_support_page
+  endcase
+  if target != blank
+    echo target.url
+  else
+    echo routes.root_url | append: '?view=bxr-' | append: destination
+  endif
+-%}

@@ -1,0 +1,147 @@
+<section class="bxr-guides"><div class="bxr-page-intro rw-gutter"><p class="rw-eyebrow">{{ section.settings.eyebrow | escape }}</p><h1>{{ section.settings.heading | escape }}</h1><div class="bxr-page-lede">{{ section.settings.introduction }}</div></div>
+  {% if section.settings.blog != blank %}
+    <div class="bxr-journal-grid rw-gutter">{% for article in section.settings.blog.articles limit: 6 %}<article><a href="{{ article.url }}">{% if article.image %}{{ article.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 750px) 30vw, 100vw' }}{% endif %}<p class="rw-eyebrow">{{ article.published_at | date: '%b %d, %Y' }}</p><h2>{{ article.title | escape }}</h2><p>{{ article.excerpt_or_content | strip_html | truncatewords: 24 }}</p><span class="rw-text-link">Read guide{% render 'rw-icon', name: 'arrow' %}</span></a></article>{% endfor %}</div>
+  {% else %}
+    <nav class="bxr-guide-topics rw-gutter" aria-label="Guide topics">{% for block in section.blocks %}<a href="#{{ block.settings.anchor | handleize }}">{{ block.settings.topic | escape }}{% render 'rw-icon', name: 'arrow' %}</a>{% endfor %}</nav>
+    <div class="bxr-guide-list rw-gutter">{% for block in section.blocks %}<article class="bxr-guide-article" id="{{ block.settings.anchor | handleize }}" {{ block.shopify_attributes }}>
+      <div class="bxr-guide-art">{% assign fallback = 'rw-' | append: block.settings.artwork | append: '.webp' %}{% render 'rw-image', image: block.settings.image, fallback: fallback, alt: block.settings.image_alt, loading: 'lazy', sizes: '(min-width: 750px) 40vw, 100vw', width: 1200, height: 1000 %}</div>
+      <div class="bxr-guide-body"><p class="rw-eyebrow">0{{ forloop.index }} / {{ block.settings.topic | escape }}</p><h2>{{ block.settings.heading | escape }}</h2><div class="rte">{{ block.settings.body }}</div></div>
+    </article>{% endfor %}</div>
+  {% endif %}
+  <div class="bxr-page-cta rw-gutter"><div><p class="rw-eyebrow">GET IN TOUCH</p><h2>{{ section.settings.support_heading | escape }}</h2></div><a class="rw-button" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}">Contact BXR{% render 'rw-icon', name: 'arrow' %}</a></div>
+</section>
+{% schema %}
+{
+  "name": "BXR guides page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE BXR FIELD NOTES"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Know your setup."
+    },
+    {
+      "type": "richtext",
+      "id": "introduction",
+      "label": "Introduction",
+      "default": "<p>Start with the details that matter. Practical reading for choosing tires, understanding brake fitment and preparing for the circuit.</p>"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog (replaces included guides)"
+    },
+    {
+      "type": "text",
+      "id": "support_heading",
+      "label": "Support heading",
+      "default": "A question about your build?"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "guide",
+      "name": "Guide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "anchor",
+          "label": "Link anchor",
+          "default": "guide"
+        },
+        {
+          "type": "text",
+          "id": "topic",
+          "label": "Topic"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Article content"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image description"
+        },
+        {
+          "type": "select",
+          "id": "artwork",
+          "label": "Included photography",
+          "options": [
+            {
+              "value": "tires",
+              "label": "Tires"
+            },
+            {
+              "value": "brakes",
+              "label": "Brakes"
+            },
+            {
+              "value": "guide",
+              "label": "Tire detail"
+            }
+          ],
+          "default": "tires"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BXR guides page",
+      "blocks": [
+        {
+          "type": "guide",
+          "settings": {
+            "anchor": "tires",
+            "topic": "Racing tires",
+            "heading": "Start at the contact patch.",
+            "artwork": "tires",
+            "image_alt": "Racing slick tires in a pit garage",
+            "body": "<p>The right tire starts with how and where you drive. Before comparing compounds, establish the dimensions and requirements of your car and wheels.</p><h3>Know your dimensions</h3><p>Record the full tire size, wheel diameter and width. Check the tire manufacturer\u2019s approved rim-width range, load requirements and clearance information for your exact application.</p><h3>Match the intended use</h3><p>Check whether the tire is intended for dry track use, wet conditions or road use. A racing slick should not be assumed to be road legal or suitable for standing water.</p><h3>Use the manufacturer\u2019s setup guidance</h3><p>Pressure targets, heat cycles and storage requirements vary by tire. Use the current instructions for the exact model, and record conditions and pressures with your installer or track support team.</p>"
+          }
+        },
+        {
+          "type": "guide",
+          "settings": {
+            "anchor": "brakes",
+            "topic": "Braking systems",
+            "heading": "Think in systems.",
+            "artwork": "brakes",
+            "image_alt": "Red racing brake caliper and steel rotor",
+            "body": "<p>A caliper is one part of a matched system. Vehicle model alone is not enough to confirm that a brake component will fit.</p><h3>Confirm the application</h3><p>Check the vehicle year, model, trim, axle position and existing brake package. Record the manufacturer\u2019s part number and any modifications to the car.</p><h3>Check dimensions and clearance</h3><p>Rotor diameter and thickness, hat offset, mounting brackets, pad shape and wheel clearance all matter. Where supplied, use the manufacturer\u2019s wheel-clearance template before ordering.</p><h3>Plan the complete installation</h3><p>Confirm the required hardware, fluid compatibility and installation procedure with the component supplier. Have the system installed and checked by a qualified professional, following the exact product instructions.</p>"
+          }
+        },
+        {
+          "type": "guide",
+          "settings": {
+            "anchor": "preparation",
+            "topic": "Track preparation",
+            "heading": "Arrive with a plan.",
+            "artwork": "guide",
+            "image_alt": "Close-up of textured racing tire rubber",
+            "body": "<p>A clear preparation routine helps you arrive ready to focus. Keep a record of the parts fitted to your car and the instructions that accompany them.</p><h3>Review before the event</h3><p>Check the event organiser\u2019s vehicle requirements and inspection process. Arrange a pre-event inspection with a qualified workshop and follow the relevant component service guidance.</p><h3>Bring the right information</h3><p>Keep tire and brake specifications, installation records and supplier contacts together. Note any fitment changes since the last event.</p><h3>Inspect and record</h3><p>Use manufacturer guidance for inspection limits, bedding procedures and maintenance. Record observations between sessions and ask a qualified professional to investigate unusual wear, vibration or changes in braking performance.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

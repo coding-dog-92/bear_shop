@@ -1,6 +1,6 @@
 # BXR Competition — Shopify theme
 
-Circuit Cinema 1.2.2. A native Shopify theme based on Dawn for racing tires and braking components.
+Circuit Cinema 1.2.3. A native Shopify theme based on Dawn for racing tires and braking components.
 
 ## Connect in Shopify
 
@@ -44,3 +44,13 @@ Release checks: 9 tests passed; Shopify Theme Check reported 0 errors and 11 inh
 ## License
 
 Based on Shopify Dawn. See LICENSE.md for the upstream MIT license.
+
+
+## 1.2.3 storefront recovery
+
+- Restored the global settings schema after an empty schema was synced from Shopify; removed an unsupported menu-picker default and made the 1440 px saved page width valid in the range definition.
+- Native layout dimensions now have defaults as well as typography, so a missing setting cannot collapse search inputs and overlap labels/icons.
+- Empty collections provide an explanation, guides and a contact destination. Editorial category cards are labeled as illustrative and link to relevant guides until a real collection is selected.
+- Product search keeps its product-only scope when submitted again.
+- Live verification after GitHub sync: home, search, collection, guides, about, support and cart passed at 1440 and 390 px; no JavaScript errors or horizontal overflow. Real product detail/purchase flow remains untested because the storefront currently exposes no products.
+- Run `node scripts/check-theme-config.mjs` to detect missing schema, invalid menu defaults and incompatible numeric values before pushing.

@@ -10,7 +10,7 @@
     assign film_poster = film_asset | append: '.webp' | asset_url
   %}
   <div class="bxr-hero-film" aria-hidden="true" data-video-layout="{{ film_layout }}">
-    <video muted loop playsinline preload="none" tabindex="-1" poster="{{ film_poster }}">
+    <video muted loop playsinline webkit-playsinline preload="none" tabindex="-1" poster="{{ film_poster }}">
       <source src="{{ film_filename | asset_url }}" type="video/mp4">
     </video>
   </div>

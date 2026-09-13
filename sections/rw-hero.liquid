@@ -1,3 +1,4 @@
+{% assign has_films = false %}
 <bxr-carousel class="rw-carousel" role="region" aria-roledescription="carousel" aria-label="{{ section.settings.label | escape }}" data-immersive="{{ section.settings.immersive }}" data-autoplay="{{ section.settings.autoplay }}" data-interval="{{ section.settings.interval | times: 1000 }}">
   <div class="rw-slides">
     {% for block in section.blocks %}
@@ -17,6 +18,7 @@
         endif
         if block.settings.video != blank or bundled_film
           assign has_video = true
+          assign has_films = true
         endif
         assign mobile_fallback = fallback | replace: '.webp', '-mobile.webp'
         assign loading = 'lazy'
@@ -56,10 +58,10 @@
       </section>
     {% endfor %}
   </div>
-  {% if section.blocks.size > 1 or section.settings.autoplay %}
+  {% if section.blocks.size > 1 or has_films %}
     <div class="rw-carousel-controls" hidden>
       <div class="rw-carousel-dots" aria-label="Choose a slide">{% for block in section.blocks %}<button type="button" data-slide-to="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}: {{ block.settings.line_1 | escape }} {{ block.settings.line_2 | escape }} {{ block.settings.line_3 | escape }}" aria-controls="BXRSlide-{{ section.id }}-{{ block.id }}" {% if forloop.first %}aria-current="true"{% endif %}><span class="rw-pagination-dot" aria-hidden="true"></span></button>{% endfor %}</div>
-      {% if section.settings.autoplay %}<button type="button" data-playback aria-label="Pause slideshow"><span data-pause-icon>{% render 'rw-icon', name: 'pause' %}</span><span data-play-icon hidden>{% render 'rw-icon', name: 'play' %}</span></button>{% endif %}
+      {% if section.settings.autoplay or has_films %}<button type="button" data-playback aria-label="Pause slideshow"><span data-pause-icon>{% render 'rw-icon', name: 'pause' %}</span><span data-play-icon hidden>{% render 'rw-icon', name: 'play' %}</span></button>{% endif %}
     </div>
     <p class="visually-hidden" data-slide-status aria-live="polite" aria-atomic="true"></p>
   {% endif %}

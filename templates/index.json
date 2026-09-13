@@ -62,7 +62,7 @@
       ],
       "settings": {
         "label": "BXR highlights",
-        "autoplay": true,
+        "autoplay": false,
         "interval": 12,
         "immersive": true
       }

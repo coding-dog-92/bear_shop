@@ -1,6 +1,6 @@
 # BXR Competition — Shopify theme
 
-Paddock Editions 1.7.2. A native Shopify theme based on Dawn for racing tires and braking components.
+Paddock Editions 1.7.3. A native Shopify theme based on Dawn for racing tires and braking components.
 
 ## Connect in Shopify
 
@@ -135,3 +135,8 @@ Replaces the Nürburgring driving montage with headlight, wheel, bodywork and re
 ### 1.7.2 — Mobile film playback recovery
 
 When autoplay is refused, the hero keeps its poster and offers Play film. Both the text action and playback control retry directly from the user click, and the slide stays visible until the visitor chooses to play or change slides. Reduced-motion preferences remain respected until the visitor opts in. Pending playback calls are deduplicated; cancellation from a slide change is not treated as an autoplay failure.
+
+
+### 1.7.3 — Independent film playback and WebView recovery
+
+The homepage no longer rotates slides on a timer. The film loops in place; dots and swipes switch slides manually. Video playback remains enabled independently of Auto-rotate slides, with a film-specific pause control that hides on static slides. Playback attempts time out to a visible retry action, and a real click can replace a stuck attempt. Native inline attributes and a guarded WeixinJSBridgeReady retry support embedded browsers. iOS WeChat device validation remains required; browser fixtures cover blocked and indefinitely pending playback requests.

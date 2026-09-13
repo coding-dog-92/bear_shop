@@ -116,6 +116,7 @@ document.addEventListener('keydown', (event) => {
 });
 
 class BxrCarousel extends HTMLElement {
+  static playbackTimeout = 6000;
   connectedCallback() {
     this.controller?.abort();
     this.controller = new AbortController();
@@ -125,11 +126,13 @@ class BxrCarousel extends HTMLElement {
     if (!this.slides.length) return;
     this.index = 0;
     this.motion = matchMedia('(prefers-reduced-motion: reduce)');
-    this.playing = this.dataset.autoplay === 'true' && !this.motion.matches && !window.Shopify?.designMode;
+    this.rotating = this.dataset.autoplay === 'true';
+    this.playing = !this.motion.matches && !window.Shopify?.designMode;
     if (this.controls) this.controls.hidden = false;
     this.mobile = matchMedia('(max-width: 749px)');
     this.videos = [...this.querySelectorAll('video')];
-    this.pendingVideos = new WeakSet();
+    this.pendingVideos = new WeakMap();
+    this.playTimers = new Map();
     this.blockedVideos = new WeakSet();
     this.interval = Math.max(5000, Number(this.dataset.interval) || 7000);
     const listen = (target, name, handler) =>
@@ -139,6 +142,7 @@ class BxrCarousel extends HTMLElement {
       video.defaultMuted = true;
       video.muted = true;
       video.playsInline = true;
+      video.setAttribute('webkit-playsinline', '');
       listen(video, 'playing', () => {
         this.blockedVideos.delete(video);
         video.parentElement.classList.add('is-ready');
@@ -200,6 +204,15 @@ class BxrCarousel extends HTMLElement {
       } else this.schedule();
     });
     listen(document, 'visibilitychange', () => this.schedule());
+    listen(document, 'WeixinJSBridgeReady', () => {
+      if (!this.playing) return;
+      const video = this.activeVideo();
+      if (video?.paused && !this.offscreen && !document.hidden && !this.hovering && !this.focused) {
+        this.blockedVideos.delete(video);
+        this.requestPlayback(video);
+      }
+      this.schedule();
+    });
     listen(this.motion, 'change', () => {
       if (this.motion.matches) this.playing = false;
       this.updatePlayback();
@@ -222,6 +235,7 @@ class BxrCarousel extends HTMLElement {
     this.controller?.abort();
     this.observer?.disconnect();
     clearTimeout(this.timer);
+    this.playTimers?.forEach((timer) => clearTimeout(timer));
     this.videos?.forEach((video) => video.pause());
   }
 
@@ -262,14 +276,39 @@ class BxrCarousel extends HTMLElement {
     this.hovering = false;
     this.focused = false;
     // Keep play() in the click call stack so mobile browsers can authorize it.
-    if (video.error) video.load();
+    this.requestPlayback(video, true);
     this.schedule();
+  }
+
+  requestPlayback(video, fromGesture = false) {
+    const attempt = Symbol('playback');
+    this.pendingVideos.set(video, attempt);
+    clearTimeout(this.playTimers.get(video));
+    // A WebView may leave its first play promise pending indefinitely.
+    // A real tap must still be able to reload and start the selected video.
+    if (fromGesture && (video.error || video.readyState === 0)) video.load();
+    video.preload = 'auto';
+    video.parentElement.classList.add('is-requested');
+    this.playTimers.set(video, setTimeout(() => {
+      if (this.pendingVideos.get(video) !== attempt) return;
+      this.pendingVideos.delete(video);
+      this.playTimers.delete(video);
+      this.blockVideo(video);
+    }, BxrCarousel.playbackTimeout));
+    video.play().catch((error) => {
+      if (this.pendingVideos.get(video) === attempt && error.name !== 'AbortError') this.blockVideo(video);
+    }).finally(() => {
+      if (this.pendingVideos.get(video) !== attempt) return;
+      this.pendingVideos.delete(video);
+      clearTimeout(this.playTimers.get(video));
+      this.playTimers.delete(video);
+    });
   }
 
   blockVideo(video) {
     if (!this.isConnected) return;
     this.blockedVideos.add(video);
-    video.parentElement.classList.remove('is-ready');
+    video.parentElement.classList.remove('is-ready', 'is-requested');
     if (video === this.activeVideo()) clearTimeout(this.timer);
     this.updatePlayback();
   }
@@ -282,10 +321,11 @@ class BxrCarousel extends HTMLElement {
       if (button) button.hidden = slide !== this.slides[this.index] || !(blocked || (!this.playing && this.motion.matches));
     });
     if (!this.playback) return;
+    this.playback.hidden = !video && !this.rotating;
     const playing = this.playing && !blocked;
     this.playback.querySelector('[data-pause-icon]').hidden = !playing;
     this.playback.querySelector('[data-play-icon]').hidden = playing;
-    this.playback.setAttribute('aria-label', blocked ? 'Play film' : playing ? 'Pause slideshow' : 'Play slideshow');
+    this.playback.setAttribute('aria-label', video ? (playing ? 'Pause film' : 'Play film') : playing ? 'Pause slideshow' : 'Play slideshow');
   }
 
   schedule() {
@@ -296,15 +336,11 @@ class BxrCarousel extends HTMLElement {
     this.videos.forEach((video) => {
       const active = running && video === activeVideo;
       if (active && video.paused && !this.pendingVideos.has(video) && !this.blockedVideos.has(video)) {
-        this.pendingVideos.add(video);
-        video.play().catch((error) => {
-          // A slide change or pause can cancel a pending play without a playback failure.
-          if (error.name !== 'AbortError') this.blockVideo(video);
-        }).finally(() => this.pendingVideos.delete(video));
+        this.requestPlayback(video);
       } else if (!active) video.pause();
     });
     this.updatePlayback();
-    if (running && !this.blockedVideos.has(activeVideo) && this.slides.length > 1)
+    if (running && this.rotating && !activeVideo && this.slides.length > 1)
       this.timer = setTimeout(() => this.select(this.index + 1), this.interval);
   }
 

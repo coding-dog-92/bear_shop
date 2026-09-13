@@ -129,15 +129,22 @@ class BxrCarousel extends HTMLElement {
     if (this.controls) this.controls.hidden = false;
     this.mobile = matchMedia('(max-width: 749px)');
     this.videos = [...this.querySelectorAll('video')];
+    this.pendingVideos = new WeakSet();
+    this.blockedVideos = new WeakSet();
     this.interval = Math.max(5000, Number(this.dataset.interval) || 7000);
     const listen = (target, name, handler) =>
       target.addEventListener(name, handler, { signal: this.controller.signal });
     listen(this.mobile, 'change', () => this.schedule());
     this.videos.forEach((video) => {
+      video.defaultMuted = true;
       video.muted = true;
       video.playsInline = true;
-      listen(video, 'playing', () => video.parentElement.classList.add('is-ready'));
-      listen(video, 'error', () => video.parentElement.classList.remove('is-ready'));
+      listen(video, 'playing', () => {
+        this.blockedVideos.delete(video);
+        video.parentElement.classList.add('is-ready');
+        this.updatePlayback();
+      });
+      listen(video, 'error', () => this.blockVideo(video));
     });
     this.dots.forEach((dot, index) => listen(dot, 'click', () => this.select(index, true)));
     this.querySelectorAll('[data-slide-step]').forEach((button) =>
@@ -146,10 +153,16 @@ class BxrCarousel extends HTMLElement {
     this.playback = this.querySelector('[data-playback]');
     if (this.playback)
       listen(this.playback, 'click', () => {
-        this.playing = !this.playing;
-        this.updatePlayback();
-        this.schedule();
+        if (this.activeVideo() && (!this.playing || this.blockedVideos.has(this.activeVideo()))) this.resumeFilm();
+        else {
+          this.playing = !this.playing;
+          this.updatePlayback();
+          this.schedule();
+        }
       });
+    this.querySelectorAll('[data-film-play]').forEach((button) =>
+      listen(button, 'click', () => this.resumeFilm()),
+    );
     listen(this, 'pointerenter', (event) => {
       if (event.pointerType !== 'mouse') return;
       this.hovering = true;
@@ -161,11 +174,11 @@ class BxrCarousel extends HTMLElement {
       this.schedule();
     });
     listen(this, 'focusin', (event) => {
-      this.focused = event.target.matches(':focus-visible') && !this.playback?.contains(event.target);
+      this.focused = event.target.matches(':focus-visible') && !event.target.closest('[data-playback], [data-film-play]');
       this.schedule();
     });
     listen(this, 'focusout', (event) => {
-      this.focused = this.contains(event.relatedTarget) && event.relatedTarget.matches(':focus-visible') && !this.playback?.contains(event.relatedTarget);
+      this.focused = this.contains(event.relatedTarget) && event.relatedTarget.matches(':focus-visible') && !event.relatedTarget.closest('[data-playback], [data-film-play]');
       this.schedule();
     });
     listen(this, 'keydown', (event) => {
@@ -233,27 +246,68 @@ class BxrCarousel extends HTMLElement {
     this.schedule();
   }
 
+  activeVideo() {
+    return this.videos.find((video) => {
+      const layout = video.parentElement.dataset.videoLayout;
+      return video.closest('[data-slide]') === this.slides[this.index] &&
+        (layout === 'all' || (layout === 'mobile') === this.mobile.matches);
+    });
+  }
+
+  resumeFilm() {
+    const video = this.activeVideo();
+    if (!video) return;
+    this.blockedVideos.delete(video);
+    this.playing = true;
+    this.hovering = false;
+    this.focused = false;
+    // Keep play() in the click call stack so mobile browsers can authorize it.
+    if (video.error) video.load();
+    this.schedule();
+  }
+
+  blockVideo(video) {
+    if (!this.isConnected) return;
+    this.blockedVideos.add(video);
+    video.parentElement.classList.remove('is-ready');
+    if (video === this.activeVideo()) clearTimeout(this.timer);
+    this.updatePlayback();
+  }
+
   updatePlayback() {
+    const video = this.activeVideo();
+    const blocked = video && this.blockedVideos.has(video);
+    this.slides.forEach((slide) => {
+      const button = slide.querySelector('[data-film-play]');
+      if (button) button.hidden = slide !== this.slides[this.index] || !(blocked || (!this.playing && this.motion.matches));
+    });
     if (!this.playback) return;
-    this.playback.querySelector('[data-pause-icon]').hidden = !this.playing;
-    this.playback.querySelector('[data-play-icon]').hidden = this.playing;
-    this.playback.setAttribute('aria-label', this.playing ? 'Pause slideshow' : 'Play slideshow');
+    const playing = this.playing && !blocked;
+    this.playback.querySelector('[data-pause-icon]').hidden = !playing;
+    this.playback.querySelector('[data-play-icon]').hidden = playing;
+    this.playback.setAttribute('aria-label', blocked ? 'Play film' : playing ? 'Pause slideshow' : 'Play slideshow');
   }
 
   schedule() {
     clearTimeout(this.timer);
     const running = this.playing && !this.hovering && !this.focused && !this.offscreen && !document.hidden;
+    const activeVideo = this.activeVideo();
     this.slides.forEach((slide, index) => { slide.dataset.mediaRunning = String(running && index === this.index); });
     this.videos.forEach((video) => {
-      const layout = video.parentElement.dataset.videoLayout;
-      const visible = layout === 'all' || (layout === 'mobile') === this.mobile.matches;
-      const active = running && visible && video.closest('[data-slide]') === this.slides[this.index];
-      if (active && video.paused) {
-        video.play().catch(() => { video.parentElement.classList.remove('is-ready'); });
+      const active = running && video === activeVideo;
+      if (active && video.paused && !this.pendingVideos.has(video) && !this.blockedVideos.has(video)) {
+        this.pendingVideos.add(video);
+        video.play().catch((error) => {
+          // A slide change or pause can cancel a pending play without a playback failure.
+          if (error.name !== 'AbortError') this.blockVideo(video);
+        }).finally(() => this.pendingVideos.delete(video));
       } else if (!active) video.pause();
     });
-    if (running && this.slides.length > 1) this.timer = setTimeout(() => this.select(this.index + 1), this.interval);
+    this.updatePlayback();
+    if (running && !this.blockedVideos.has(activeVideo) && this.slides.length > 1)
+      this.timer = setTimeout(() => this.select(this.index + 1), this.interval);
   }
+
 }
 if (!customElements.get('bxr-carousel')) customElements.define('bxr-carousel', BxrCarousel);
 

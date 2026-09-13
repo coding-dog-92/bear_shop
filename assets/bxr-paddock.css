@@ -360,3 +360,9 @@ bxr-masthead[data-overlay] .bxr-paddock-header:not(:has(details[open])) .rw-icon
  .rw-carousel[data-immersive='true'] .rw-slide[data-has-video] .rw-hero-media { transform:translateY(-12svh); }
  .rw-carousel[data-immersive='true'] .rw-slide[data-has-video]::after { background:linear-gradient(0deg,#080b0d 12%,#080b0de6 28%,transparent 64%); }
 }
+
+/* A visible recovery action when a browser declines background playback. */
+.bxr-film-play { display:inline-flex; align-items:center; gap:9px; min-height:44px; margin-top:12px; padding:0 2px; border:0; border-bottom:1px solid currentColor; background:transparent; color:inherit; font:inherit; font-size:14px; cursor:pointer; }
+.bxr-film-play[hidden] { display:none; }
+.bxr-film-play svg { width:15px; height:15px; }
+.bxr-film-play:focus-visible { outline:2px solid currentColor; outline-offset:5px; }

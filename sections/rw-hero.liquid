@@ -51,6 +51,7 @@
             <a class="rw-button" href="{{ primary_destination | strip }}">{{ block.settings.primary_label | escape }}{% render 'rw-icon', name: 'arrow' %}</a>
             {% if block.settings.secondary_label != blank %}<a class="rw-text-link" href="{{ block.settings.secondary_link | default: '#bxr-fitment' }}">{{ block.settings.secondary_label | escape }}{% render 'rw-icon', name: 'arrow' %}</a>{% endif %}
           </div>
+          {% if has_video %}<button type="button" class="bxr-film-play" data-film-play hidden>{% render 'rw-icon', name: 'play' %}<span>Play film</span></button>{% endif %}
         </div>
       </section>
     {% endfor %}

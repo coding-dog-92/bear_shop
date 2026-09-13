@@ -1,6 +1,6 @@
 # BXR Competition — Shopify theme
 
-Paddock Editions 1.4.0. A native Shopify theme based on Dawn for racing tires and braking components.
+Paddock Editions 1.5.0. A native Shopify theme based on Dawn for racing tires and braking components.
 
 ## Connect in Shopify
 
@@ -77,3 +77,14 @@ Based on Shopify Dawn. See LICENSE.md for the upstream MIT license.
 - Footer groups remain expanded on desktop and become native disclosures on mobile. Account, contact and policy destinations are preserved.
 - The existing brand section is retained but disabled to avoid duplicating the guide/support content. Guides link to the dedicated guide page, not back to products.
 - Real vehicle-to-product mapping data is still merchant-managed under BXR vehicle finder. This release does not invent product compatibility or business policies.
+
+
+### 1.5.0 — Shop directly below the hero
+
+The homepage combines featured products and category browsing in one `BXR shop collection` section. Its three tabs are Featured, Racing tires and Braking components. Featured uses the selected collection; category previews use Theme settings → BXR catalog destinations collections, falling back to exact product-type matches in the first Shopify all-products slice. Assign category collections for a growing catalog; their full collection links remain available. Desktop cards share three columns; mobile cards scroll horizontally with the next card visible.
+
+The existing vehicle finder retains its verified mapping blocks and now opens from the small Check vehicle fitment link below the product cards. Without JavaScript, this link goes to Support and category tabs remain normal catalog links. Re-enable the old category image section only if intentionally adding that extra content back to the homepage.
+
+The slideshow defaults to seven-second rotation, pauses on mouse hover and keyboard focus, and resumes after leaving. Explicit pause, reduced-motion preference, hidden tabs, offscreen carousel and theme-editor mode suspend automatic rotation. Manual slide selection does not permanently disable rotation. The compact pause control remains available for touch and keyboard users.
+
+Header, shopping area, guide card and footer share a 1440px content width on large screens. The guide has a bounded image height with matching panel edges rather than a full-width, naturally expanding image.

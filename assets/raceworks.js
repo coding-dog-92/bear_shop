@@ -141,18 +141,22 @@ class BxrCarousel extends HTMLElement {
         this.updatePlayback();
         this.schedule();
       });
-    listen(this, 'mouseenter', () => {
+    listen(this, 'pointerenter', (event) => {
+      if (event.pointerType !== 'mouse') return;
       this.hovering = true;
       this.schedule();
     });
-    listen(this, 'mouseleave', () => {
+    listen(this, 'pointerleave', (event) => {
+      if (event.pointerType !== 'mouse') return;
       this.hovering = false;
       this.schedule();
     });
     listen(this, 'focusin', (event) => {
-      if (event.target === this.playback) return;
-      this.playing = false;
-      this.updatePlayback();
+      this.focused = event.target.matches(':focus-visible') && !this.playback?.contains(event.target);
+      this.schedule();
+    });
+    listen(this, 'focusout', (event) => {
+      this.focused = this.contains(event.relatedTarget) && event.relatedTarget.matches(':focus-visible') && !this.playback?.contains(event.relatedTarget);
       this.schedule();
     });
     listen(this, 'keydown', (event) => {
@@ -213,7 +217,6 @@ class BxrCarousel extends HTMLElement {
       else dot.removeAttribute('aria-current');
     });
     if (manual) {
-      this.playing = false;
       this.querySelector('[data-slide-status]').textContent = `Slide ${this.index + 1} of ${this.slides.length}`;
     }
     this.updatePlayback();
@@ -229,7 +232,7 @@ class BxrCarousel extends HTMLElement {
 
   schedule() {
     clearTimeout(this.timer);
-    if (!this.playing || this.hovering || this.offscreen || document.hidden) return;
+    if (!this.playing || this.hovering || this.focused || this.offscreen || document.hidden) return;
     this.timer = setTimeout(() => this.select(this.index + 1), this.interval);
   }
 }
@@ -286,6 +289,9 @@ if (!customElements.get('bxr-dialog')) customElements.define('bxr-dialog', BxrDi
 document.addEventListener('click', (event) => {
   const opener = event.target.closest('[data-bxr-open]');
   if (opener) document.getElementById(opener.dataset.bxrOpen)?.closest('bxr-dialog')?.show(opener);
+  const fitmentOpener = event.target.closest('[data-bxr-fitment-open]');
+  const finder = document.querySelector('[data-bxr-fitment-dialog]')?.closest('bxr-dialog');
+  if (fitmentOpener && finder) { event.preventDefault(); finder.show(fitmentOpener); }
 });
 
 class BxrFooter extends HTMLElement {
@@ -304,3 +310,43 @@ class BxrFooter extends HTMLElement {
   disconnectedCallback() { this.controller?.abort(); }
 }
 if (!customElements.get('bxr-footer')) customElements.define('bxr-footer', BxrFooter);
+
+
+class BxrProductTabs extends HTMLElement {
+  static movement = new Map([['ArrowRight', 1], ['ArrowLeft', -1]]);
+  connectedCallback() {
+    this.controller?.abort();
+    this.controller = new AbortController();
+    this.tabs = [...this.querySelectorAll('[data-product-tab]')];
+    this.panels = [...this.querySelectorAll('[data-product-panel]')];
+    this.querySelector('[data-product-tabs]').setAttribute('role', 'tablist');
+    this.tabs.forEach((tab, index) => {
+      tab.setAttribute('role', 'tab');
+      tab.addEventListener('click', (event) => {
+        event.preventDefault();
+        this.select(index);
+      }, { signal: this.controller.signal });
+      tab.addEventListener('keydown', (event) => {
+        const movement = BxrProductTabs.movement;
+        if (!movement.has(event.key) && !['Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const target = event.key === 'Home' ? 0 : event.key === 'End' ? this.tabs.length - 1 : (index + movement.get(event.key) + this.tabs.length) % this.tabs.length;
+        this.select(target);
+        this.tabs[target].focus();
+      }, { signal: this.controller.signal });
+    });
+    this.panels.forEach((panel) => { panel.setAttribute('role', 'tabpanel'); panel.tabIndex = 0; });
+    this.select(0);
+  }
+
+  select(index) {
+    this.tabs.forEach((tab, position) => {
+      tab.setAttribute('aria-selected', String(position === index));
+      tab.tabIndex = position === index ? 0 : -1;
+    });
+    this.panels.forEach((panel, position) => { panel.hidden = position !== index; });
+  }
+
+  disconnectedCallback() { this.controller?.abort(); }
+}
+if (!customElements.get('bxr-product-tabs')) customElements.define('bxr-product-tabs', BxrProductTabs);

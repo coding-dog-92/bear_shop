@@ -1,42 +1,64 @@
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
-<section class="rw-featured rw-gutter" aria-labelledby="RWFeatured-{{ section.id }}">
-  <div class="rw-section-heading"><div><h2 id="RWFeatured-{{ section.id }}">{{ section.settings.heading | escape }}</h2><p class="bxr-section-description">{{ section.settings.description | escape }}</p></div><a class="rw-text-link" href="{{ routes.all_products_collection_url }}">View all parts{% render 'rw-icon', name: 'arrow' %}</a></div>
-  <div class="rw-products">
-    {% if section.settings.collection != blank and section.settings.collection.products_count > 0 %}
-      {% for product in section.settings.collection.products limit: section.settings.limit %}
-        {% render 'rw-product-card', product: product, show_price: section.settings.show_price %}
-      {% endfor %}
-    {% elsif section.settings.show_editorial %}
-      {% assign titles = 'Track tire,Brake caliper,Brake rotor' | split: ',' %}
-      {% assign assets = 'rw-product-tire.webp,rw-product-caliper.webp,rw-product-rotor.webp' | split: ',' %}
-      {% for title in titles %}
-        <article class="rw-product-card">
-          <a class="rw-product-image" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}#{% if forloop.first %}tires{% else %}brakes{% endif %}">{% render 'rw-image', fallback: assets[forloop.index0], alt: title, loading: 'lazy', sizes: '(min-width: 750px) 30vw, 50vw', width: 1000, height: 800 %}</a>
-          <h3>{{ title }}</h3><p class="rw-concept-label">Category preview · illustrative image</p><a class="rw-text-link" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}#{% if forloop.first %}tires{% else %}brakes{% endif %}">Explore the guide{% render 'rw-icon', name: 'arrow' %}</a>
-        </article>
-      {% endfor %}
-    {% else %}
-      <p>New parts are on the way. Explore the collection to see what is available.</p>
-    {% endif %}
+<section class="rw-featured bxr-shop rw-gutter" id="bxr-shop" aria-labelledby="RWFeatured-{{ section.id }}">
+  <div class="rw-section-heading">
+    <div><h2 id="RWFeatured-{{ section.id }}">{{ section.settings.heading | escape }}</h2><p class="bxr-section-description">{{ section.settings.description | escape }}</p></div>
+    <a class="rw-text-link" href="{{ routes.all_products_collection_url }}">View all parts{% render 'rw-icon', name: 'arrow' %}</a>
   </div>
+  <bxr-product-tabs>
+    <nav class="bxr-shop-tabs" data-product-tabs aria-label="Shop by category">
+      <a id="BxrTab-{{ section.id }}-featured" href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" data-product-tab="featured" aria-controls="BxrPanel-{{ section.id }}-featured">Featured</a>
+      <a id="BxrTab-{{ section.id }}-tires" href="{% render 'bxr-category-url', category: 'tires', settings: settings %}" data-product-tab="tires" aria-controls="BxrPanel-{{ section.id }}-tires">Racing tires</a>
+      <a id="BxrTab-{{ section.id }}-brakes" href="{% render 'bxr-category-url', category: 'brakes', settings: settings %}" data-product-tab="brakes" aria-controls="BxrPanel-{{ section.id }}-brakes">Braking components</a>
+    </nav>
+    {% assign categories = 'featured,tires,brakes' | split: ',' %}
+    {% for category in categories %}
+      {% liquid
+        assign source_collection = section.settings.collection
+        assign product_type = blank
+        if category == 'tires'
+          assign source_collection = settings.bxr_tires_collection
+          assign product_type = settings.bxr_tires_type | default: 'Racing tires'
+        elsif category == 'brakes'
+          assign source_collection = settings.bxr_brakes_collection
+          assign product_type = settings.bxr_brakes_type | default: 'Braking systems'
+        endif
+        assign category_products = source_collection.products
+        if source_collection == blank
+          assign category_products = collections.all.products
+          if product_type != blank
+            assign category_products = category_products | where: 'type', product_type
+          endif
+        endif
+      %}
+      <div id="BxrPanel-{{ section.id }}-{{ category }}" data-product-panel="{{ category }}" aria-labelledby="BxrTab-{{ section.id }}-{{ category }}" {% unless forloop.first %}hidden{% endunless %}>
+        <div class="rw-products">
+          {% for product in category_products limit: section.settings.limit %}
+            {% render 'rw-product-card', product: product, show_price: section.settings.show_price %}
+          {% else %}
+            <div class="bxr-shop-empty"><p>Explore the full catalog for available parts in this category.</p><a class="rw-text-link" href="{% if category == 'featured' %}{{ routes.all_products_collection_url }}{% else %}{% render 'bxr-category-url', category: category, settings: settings %}{% endif %}">Browse parts{% render 'rw-icon', name: 'arrow' %}</a></div>
+          {% endfor %}
+        </div>
+        {% unless forloop.first %}<a class="rw-text-link bxr-category-all" href="{% render 'bxr-category-url', category: category, settings: settings %}">View all {% if category == 'tires' %}racing tires{% else %}braking components{% endif %}{% render 'rw-icon', name: 'arrow' %}</a>{% endunless %}
+      </div>
+    {% endfor %}
+  </bxr-product-tabs>
+  <div class="bxr-shop-assistance"><span>Not sure what fits your car?</span><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}" class="rw-text-link" data-bxr-fitment-open aria-haspopup="dialog">Check vehicle fitment{% render 'rw-icon', name: 'arrow' %}</a></div>
 </section>
-
-
 {% schema %}
 {
-  "name": "BXR featured parts",
+  "name": "BXR shop collection",
   "settings": [
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Selected for the circuit"
+      "default": "Shop the collection."
     },
     {
       "type": "text",
       "id": "description",
       "label": "Introduction",
-      "default": "A selection from our catalog."
+      "default": "Racing tires and braking components, ready to explore."
     },
     {
       "type": "collection",
@@ -57,16 +79,6 @@
       "id": "show_price",
       "label": "Show live product prices",
       "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_editorial",
-      "label": "Show concept photography before selecting a collection",
-      "default": true
-    },
-    {
-      "type": "paragraph",
-      "content": "Concept cards have no price or Add to cart action. Assign a collection to replace them with your real products."
     }
   ],
   "presets": [

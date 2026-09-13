@@ -5,7 +5,8 @@
     {% else %}<a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>{% endif %}
   {% endfor %}
 {% else %}
+  <a href="{{ routes.all_products_collection_url }}">Shop all</a>
   <a href="{% render 'bxr-category-url', category: 'tires', collection: tires_collection, settings: settings %}">Tires</a>
   <a href="{% render 'bxr-category-url', category: 'brakes', collection: brakes_collection, settings: settings %}">Brakes</a>
-  <a href="{{ routes.all_products_collection_url }}">All parts</a>
+  <a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}">Guides</a>
 {% endif %}

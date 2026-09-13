@@ -58,14 +58,15 @@
       ],
       "settings": {
         "label": "BXR highlights",
-        "autoplay": false,
+        "autoplay": true,
         "interval": 7
       }
     },
     "fitment": {
       "type": "rw-fitment",
       "settings": {
-        "heading": "Find parts for your car"
+        "heading": "Check vehicle fitment",
+        "introduction": "Enter your car\u2019s year, make and model to check verified matches. If we don\u2019t have a match, send your details to our team."
       }
     },
     "categories": {
@@ -96,17 +97,17 @@
       ],
       "settings": {
         "heading": "Shop by category"
-      }
+      },
+      "disabled": true
     },
     "featured": {
       "type": "rw-featured",
       "settings": {
-        "heading": "Selected for the circuit",
+        "heading": "Shop the collection.",
         "collection": "featured-parts",
         "limit": 3,
         "show_price": true,
-        "show_editorial": true,
-        "description": "A selection from our catalog."
+        "description": "Racing tires and braking components, ready to explore."
       }
     },
     "guides": {
@@ -149,10 +150,10 @@
   },
   "order": [
     "hero",
-    "categories",
-    "fitment",
     "featured",
+    "fitment",
     "guides",
+    "categories",
     "brand"
   ]
 }

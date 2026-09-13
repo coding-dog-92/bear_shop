@@ -1,6 +1,6 @@
 # BXR Competition — Shopify theme
 
-Paddock Editions 1.5.0. A native Shopify theme based on Dawn for racing tires and braking components.
+Paddock Editions 1.5.1. A native Shopify theme based on Dawn for racing tires and braking components.
 
 ## Connect in Shopify
 

@@ -1,19 +1,36 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "rw-hero",
-      "settings": {},
       "blocks": {
         "circuit": {
           "type": "slide",
           "settings": {
+            "image_alt": "Silver race car on a circuit at sunset",
+            "line_1": "CONTROL",
+            "line_2": "EVERY",
+            "line_3": "CORNER.",
+            "description": "Racing tires and braking components.",
+            "primary_label": "Explore the collection",
+            "primary_link": "",
+            "secondary_label": "Find your fit",
+            "secondary_link": "",
             "artwork": "hero"
           }
         },
         "tires": {
           "type": "slide",
           "settings": {
-            "artwork": "slide-tires",
+            "image_alt": "Slick racing tires in a dark pit garage",
             "line_1": "FIND",
             "line_2": "YOUR",
             "line_3": "EDGE.",
@@ -22,13 +39,13 @@
             "primary_link": "/search?type=product&q=tire",
             "secondary_label": "Read the tire guide",
             "secondary_link": "/?view=bxr-guides#tires",
-            "image_alt": "Slick racing tires in a dark pit garage"
+            "artwork": "slide-tires"
           }
         },
         "brakes": {
           "type": "slide",
           "settings": {
-            "artwork": "slide-brakes",
+            "image_alt": "Red racing caliper with ventilated brake rotor",
             "line_1": "PRECISION",
             "line_2": "UNDER",
             "line_3": "PRESSURE.",
@@ -37,7 +54,7 @@
             "primary_link": "/search?type=product&q=brake",
             "secondary_label": "Check your setup",
             "secondary_link": "/?view=bxr-guides#brakes",
-            "image_alt": "Red racing caliper with ventilated brake rotor"
+            "artwork": "slide-brakes"
           }
         }
       },
@@ -45,11 +62,21 @@
         "circuit",
         "tires",
         "brakes"
-      ]
+      ],
+      "settings": {
+        "label": "BXR highlights",
+        "autoplay": true,
+        "interval": 7
+      }
     },
     "fitment": {
       "type": "rw-fitment",
-      "settings": {}
+      "settings": {
+        "heading": "Find parts for your car",
+        "empty_text": "Explore tires and braking components. Confirm vehicle compatibility on the product page.",
+        "browse_link": "",
+        "size_link": ""
+      }
     },
     "categories": {
       "type": "rw-categories",
@@ -60,6 +87,7 @@
             "heading": "Grip starts here.",
             "subtitle": "Racing tires",
             "label": "Explore tires",
+            "collection": "",
             "link": "/search?type=product&q=tire"
           }
         },
@@ -69,6 +97,7 @@
             "heading": "Make every braking point count.",
             "subtitle": "Braking systems",
             "label": "View brake systems",
+            "collection": "",
             "link": "/search?type=product&q=brake"
           }
         }
@@ -81,19 +110,22 @@
     },
     "featured": {
       "type": "rw-featured",
-      "settings": {}
+      "settings": {
+        "heading": "Featured Parts",
+        "collection": "featured-parts",
+        "limit": 3,
+        "show_price": true,
+        "show_editorial": true
+      }
     },
     "guides": {
       "type": "rw-guide",
-      "settings": {
-        "link": "/?view=bxr-guides"
-      },
       "blocks": {
         "tire": {
           "type": "guide",
           "settings": {
             "title": "Start with tire size",
-            "body": "<p>Check the full tire size, wheel width range, load requirements and intended use. Use the tire manufacturer\u2019s current specifications before ordering.</p>"
+            "body": "<p>Check the full tire size, wheel width range, load requirements and intended use. Use the tire manufacturer’s current specifications before ordering.</p>"
           }
         },
         "brake": {
@@ -107,7 +139,7 @@
           "type": "guide",
           "settings": {
             "title": "Prepare for your track day",
-            "body": "<p>Follow the component manufacturer\u2019s inspection and installation guidance. Have your setup checked by a qualified installer before use.</p>"
+            "body": "<p>Follow the component manufacturer’s inspection and installation guidance. Have your setup checked by a qualified installer before use.</p>"
           }
         }
       },
@@ -115,7 +147,12 @@
         "tire",
         "brake",
         "setup"
-      ]
+      ],
+      "settings": {
+        "heading": "Know your setup.",
+        "description": "Straightforward guides to help you choose the right tires and braking components for your track days.",
+        "link": "/?view=bxr-guides"
+      }
     }
   },
   "order": [

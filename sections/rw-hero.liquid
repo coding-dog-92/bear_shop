@@ -9,6 +9,15 @@
         elsif artwork == 'slide-tires'
           assign fallback = 'bxr-clean-tires.webp'
         endif
+        assign bundled_film = false
+        assign has_video = false
+        if block.settings.included_film and block.settings.video == blank
+          assign bundled_film = true
+          assign fallback = 'bxr-circuit-film.webp'
+        endif
+        if block.settings.video != blank or bundled_film
+          assign has_video = true
+        endif
         assign mobile_fallback = fallback | replace: '.webp', '-mobile.webp'
         assign loading = 'lazy'
         assign priority = 'auto'
@@ -18,7 +27,7 @@
         endif
       %}
       {% capture primary_destination %}{% if block.settings.primary_link != blank %}{{ block.settings.primary_link }}{% elsif block.settings.category != blank and block.settings.category != 'all' %}{% render 'bxr-category-url', category: block.settings.category, settings: settings %}{% else %}{{ routes.all_products_collection_url }}{% endif %}{% endcapture %}
-      <section class="rw-hero rw-slide" id="BXRSlide-{{ section.id }}-{{ block.id }}" role="group" aria-roledescription="slide" aria-label="{{ forloop.index }} of {{ section.blocks.size }}" data-slide data-artwork="{{ artwork }}" data-block-id="{{ block.id }}" data-photo-motion="{{ block.settings.photo_motion }}"{% if block.settings.video != blank %} data-has-video data-video-tone="{{ block.settings.video_tone }}"{% endif %} {% unless forloop.first %}hidden inert{% endunless %} {{ block.shopify_attributes }}>
+      <section class="rw-hero rw-slide" id="BXRSlide-{{ section.id }}-{{ block.id }}" role="group" aria-roledescription="slide" aria-label="{{ forloop.index }} of {{ section.blocks.size }}" data-slide data-artwork="{{ artwork }}" data-block-id="{{ block.id }}" data-photo-motion="{{ block.settings.photo_motion }}"{% if has_video %} data-has-video data-video-tone="{{ block.settings.video_tone }}"{% endif %} {% unless forloop.first %}hidden inert{% endunless %} {{ block.shopify_attributes }}>
         <picture class="rw-hero-media">
           {% if block.settings.mobile_image != blank %}
             <source media="(max-width: 749px)" srcset="{{ block.settings.mobile_image | image_url: width: 900 }}">
@@ -32,6 +41,8 @@
             {{ block.settings.video | video_tag: image_size: '1920x', autoplay: false, loop: true, muted: true, controls: false, preload: 'none', tabindex: '-1' }}
           </div>
           {% if block.settings.mobile_video != blank %}<div class="bxr-hero-film" aria-hidden="true" data-video-layout="mobile">{{ block.settings.mobile_video | video_tag: image_size: '900x', autoplay: false, loop: true, muted: true, controls: false, preload: 'none', tabindex: '-1' }}</div>{% endif %}
+        {% elsif bundled_film %}
+          {% render 'bxr-bundled-film' %}
         {% endif %}
         <div class="rw-hero-content">
           {% if forloop.first %}<h1 class="rw-hero-title">{% else %}<h2 class="rw-hero-title">{% endif %}<span>{{ block.settings.line_1 | escape }}</span><span>{{ block.settings.line_2 | escape }}</span>{% if block.settings.line_3 != blank %}<span>{{ block.settings.line_3 | escape }}</span>{% endif %}{% if forloop.first %}</h1>{% else %}</h2>{% endif %}
@@ -94,6 +105,13 @@
           "type": "image_picker",
           "id": "mobile_image",
           "label": "Mobile image"
+        },
+        {
+          "type": "checkbox",
+          "id": "included_film",
+          "label": "Use included racing film",
+          "default": false,
+          "info": "A muted CGI racing film, with a separate mobile crop. Selecting your own background video overrides this film."
         },
         {
           "type": "video",

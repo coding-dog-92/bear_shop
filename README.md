@@ -1,6 +1,6 @@
 # BXR Competition — Shopify theme
 
-Paddock Editions 1.6.0. A native Shopify theme based on Dawn for racing tires and braking components.
+Paddock Editions 1.6.1. A native Shopify theme based on Dawn for racing tires and braking components.
 
 ## Connect in Shopify
 
@@ -104,3 +104,10 @@ In **Online Store → Themes → Edit theme**, select **Home page**:
 - **BXR purchase help → Question**: edit questions and answers. Shipping and returns automatically link to published Shopify policies, falling back to a relevant enquiry when a policy has not been published.
 
 The newly included wheel, preparation and garage photographs are illustrative AI-generated editorial assets; they do not document BXR facilities, events or exact product specifications. Real product information is still managed under **Products**, and business terms under **Settings → Policies**.
+
+
+### 1.6.1 — Included cinematic video
+
+The first slide now includes an actual muted H.264 video, served with the theme assets, with a separate portrait crop. Its matching poster remains visible until playback succeeds and whenever motion is disabled. The film is 8.2 seconds; the existing 10-second slideshow, hover/focus pause, visibility handling and manual controls still apply. In **BXR cinematic slideshow → first Slide**, disable **Use included racing film** to restore the original photographic artwork, or select **Background video** to override the included film with Shopify-hosted footage.
+
+Included film source: [Stunning Cinematic Sports Car Animation](https://www.pexels.com/video/stunning-cinematic-sports-car-animation-30288571/) by Nikhil thakur, downloaded 2026-09-13, used and modified under the [Pexels License](https://www.pexels.com/license/). This is illustrative CGI stock footage, not footage of BXR-owned vehicles or an endorsement by the depicted manufacturers. The edit removes audio, trims before the large front-badge shot, blends the loop boundary, resizes for desktop/mobile and extracts matching WebP posters. No runtime connection to Pexels is required.

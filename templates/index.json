@@ -6,7 +6,7 @@
         "circuit": {
           "type": "slide",
           "settings": {
-            "image_alt": "Silver track car in a sunlit pit lane",
+            "image_alt": "Cinematic close-up of a racing wheel and orange GT car",
             "line_1": "For the",
             "line_2": "next lap.",
             "line_3": "",
@@ -16,7 +16,9 @@
             "secondary_label": "",
             "secondary_link": "",
             "artwork": "hero",
-            "photo_motion": true
+            "photo_motion": false,
+            "included_film": true,
+            "video_tone": "light"
           }
         },
         "tires": {

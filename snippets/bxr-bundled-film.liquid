@@ -1,0 +1,17 @@
+{% comment %}Only the active viewport video is played and downloaded by BxrCarousel.{% endcomment %}
+{% assign film_layouts = 'desktop,mobile' | split: ',' %}
+{% for film_layout in film_layouts %}
+  {% liquid
+    assign film_asset = 'bxr-circuit-film'
+    if film_layout == 'mobile'
+      assign film_asset = film_asset | append: '-mobile'
+    endif
+    assign film_url = film_asset | append: '.mp4' | asset_url
+    assign film_poster = film_asset | append: '.webp' | asset_url
+  %}
+  <div class="bxr-hero-film" aria-hidden="true" data-video-layout="{{ film_layout }}">
+    <video muted loop playsinline preload="none" tabindex="-1" poster="{{ film_poster }}">
+      <source src="{{ film_url }}" type="video/mp4">
+    </video>
+  </div>
+{% endfor %}

@@ -6,7 +6,7 @@
         "circuit": {
           "type": "slide",
           "settings": {
-            "image_alt": "Porsche 911 GT3 RS driving on the N\u00fcrburgring",
+            "image_alt": "Porsche 911 GT3 RS headlight, wheel, bodywork and rear wing details",
             "line_1": "For the",
             "line_2": "next lap.",
             "line_3": "",
@@ -63,7 +63,7 @@
       "settings": {
         "label": "BXR highlights",
         "autoplay": true,
-        "interval": 10,
+        "interval": 12,
         "immersive": true
       }
     },

@@ -1,6 +1,6 @@
 # BXR Competition — Shopify theme
 
-Paddock Editions 1.7.0. A native Shopify theme based on Dawn for racing tires and braking components.
+Paddock Editions 1.7.1. A native Shopify theme based on Dawn for racing tires and braking components.
 
 ## Connect in Shopify
 
@@ -125,3 +125,8 @@ Film source: [Sports Car Video Footage](https://www.motionforgepictures.com/spor
 The connected development store now uses the reviewed Porsche 911 GT3 RS Nürburgring edit, with separate desktop/mobile MP4 files and posters. The homepage enables the full-screen layout, transparent navigation over the hero, an opaque navigation background after scrolling, and right-positioned desktop copy. Other page headers stay solid.
 
 Footage source: Porsche AG, https://newstv.porsche.com/porschevideos/226786_en_3000000.mp4. The user requested this material for development/self-testing; no commercial license is claimed. Replace the footage or secure appropriate rights before commercial use. These are native theme assets, so a push to the connected main branch synchronizes the film and markup together.
+
+
+### 1.7.1 — Detail-led Porsche film
+
+Replaces the Nürburgring driving montage with headlight, wheel, bodywork and rear-wing close-ups, mixed with a short whole-car shot. Source: SolidMotion, Autotron Exclusive case study, https://solidmotion.nl/case-autotron, https://solidmotion.nl/assets/videos/cases/case-autotron/film-1.mp4. Source is 1920×1080 at 50 fps; the letterboxed image is reframed to 1920×840 at 30 fps, with a separately framed mobile file. Retains the user's development/self-testing scope; no commercial license is claimed. Slideshow interval is 12 seconds to accommodate the complete film.

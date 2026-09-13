@@ -376,3 +376,32 @@ class BxrProductTabs extends HTMLElement {
   disconnectedCallback() { this.controller?.abort(); }
 }
 if (!customElements.get('bxr-product-tabs')) customElements.define('bxr-product-tabs', BxrProductTabs);
+
+class BxrMasthead extends HTMLElement {
+  connectedCallback() {
+    this.controller?.abort();
+    this.controller = new AbortController();
+    const refresh = () => {
+      this.observer?.disconnect();
+      const hero = document.querySelector('main bxr-carousel[data-immersive="true"]');
+      this.toggleAttribute('data-overlay', false);
+      if (!hero) return;
+      this.observer = new IntersectionObserver(([entry]) => {
+        this.toggleAttribute('data-overlay', entry.isIntersecting);
+      }, { rootMargin: `-${this.offsetHeight}px 0px 0px 0px` });
+      this.observer.observe(hero);
+    };
+    this.resizeObserver = new ResizeObserver(refresh);
+    this.resizeObserver.observe(this);
+    document.addEventListener('shopify:section:load', refresh, { signal: this.controller.signal });
+    document.addEventListener('shopify:section:unload', refresh, { signal: this.controller.signal });
+    refresh();
+  }
+
+  disconnectedCallback() {
+    this.controller?.abort();
+    this.observer?.disconnect();
+    this.resizeObserver?.disconnect();
+  }
+}
+if (!customElements.get('bxr-masthead')) customElements.define('bxr-masthead', BxrMasthead);

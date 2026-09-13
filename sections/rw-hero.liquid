@@ -1,4 +1,4 @@
-<bxr-carousel class="rw-carousel" role="region" aria-roledescription="carousel" aria-label="{{ section.settings.label | escape }}" data-autoplay="{{ section.settings.autoplay }}" data-interval="{{ section.settings.interval | times: 1000 }}">
+<bxr-carousel class="rw-carousel" role="region" aria-roledescription="carousel" aria-label="{{ section.settings.label | escape }}" data-immersive="{{ section.settings.immersive }}" data-autoplay="{{ section.settings.autoplay }}" data-interval="{{ section.settings.interval | times: 1000 }}">
   <div class="rw-slides">
     {% for block in section.blocks %}
       {% liquid
@@ -13,7 +13,7 @@
         assign has_video = false
         if block.settings.included_film and block.settings.video == blank
           assign bundled_film = true
-          assign fallback = 'bxr-redline-film.webp'
+          assign fallback = 'bxr-porsche-film.webp'
         endif
         if block.settings.video != blank or bundled_film
           assign has_video = true
@@ -27,7 +27,7 @@
         endif
       %}
       {% capture primary_destination %}{% if block.settings.primary_link != blank %}{{ block.settings.primary_link }}{% elsif block.settings.category != blank and block.settings.category != 'all' %}{% render 'bxr-category-url', category: block.settings.category, settings: settings %}{% else %}{{ routes.all_products_collection_url }}{% endif %}{% endcapture %}
-      <section class="rw-hero rw-slide" id="BXRSlide-{{ section.id }}-{{ block.id }}" role="group" aria-roledescription="slide" aria-label="{{ forloop.index }} of {{ section.blocks.size }}" data-slide data-artwork="{{ artwork }}" data-block-id="{{ block.id }}" data-photo-motion="{{ block.settings.photo_motion }}"{% if has_video %} data-has-video data-video-tone="{{ block.settings.video_tone }}"{% endif %} {% unless forloop.first %}hidden inert{% endunless %} {{ block.shopify_attributes }}>
+      <section class="rw-hero rw-slide" id="BXRSlide-{{ section.id }}-{{ block.id }}" role="group" aria-roledescription="slide" aria-label="{{ forloop.index }} of {{ section.blocks.size }}" data-slide data-artwork="{{ artwork }}" data-content-position="{{ block.settings.content_position | default: 'left' }}" data-block-id="{{ block.id }}" data-photo-motion="{{ block.settings.photo_motion }}"{% if has_video %} data-has-video data-video-tone="{{ block.settings.video_tone }}"{% endif %} {% unless forloop.first %}hidden inert{% endunless %} {{ block.shopify_attributes }}>
         <picture class="rw-hero-media">
           {% if block.settings.mobile_image != blank %}
             <source media="(max-width: 749px)" srcset="{{ block.settings.mobile_image | image_url: width: 900 }}">
@@ -69,6 +69,13 @@
   "max_blocks": 5,
   "settings": [
     {
+      "type": "checkbox",
+      "id": "immersive",
+      "label": "Full-screen cinematic layout",
+      "default": false,
+      "info": "Overlays navigation on the film, with an opaque header after scrolling. Use footage with clear space on the left for the headline."
+    },
+    {
       "type": "text",
       "id": "label",
       "label": "Accessible label",
@@ -97,6 +104,16 @@
       "name": "Slide",
       "settings": [
         {
+          "type": "select",
+          "id": "content_position",
+          "label": "Desktop text position",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
           "type": "image_picker",
           "id": "image",
           "label": "Desktop image"
@@ -111,7 +128,7 @@
           "id": "included_film",
           "label": "Use included racing film",
           "default": false,
-          "info": "A muted CGI racing film, with a separate mobile crop. Selecting your own background video overrides this film."
+          "info": "A muted Porsche 911 test film, with a separate mobile crop. Selecting your own background video overrides this film."
         },
         {
           "type": "video",

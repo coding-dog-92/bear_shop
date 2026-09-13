@@ -6,7 +6,7 @@
         "circuit": {
           "type": "slide",
           "settings": {
-            "image_alt": "Red and black competition coupe sliding across a sunlit salt flat",
+            "image_alt": "Porsche 911 GT3 RS driving on the N\u00fcrburgring",
             "line_1": "For the",
             "line_2": "next lap.",
             "line_3": "",
@@ -18,7 +18,8 @@
             "artwork": "hero",
             "photo_motion": false,
             "included_film": true,
-            "video_tone": "light"
+            "video_tone": "light",
+            "content_position": "right"
           }
         },
         "tires": {
@@ -62,7 +63,8 @@
       "settings": {
         "label": "BXR highlights",
         "autoplay": true,
-        "interval": 10
+        "interval": 10,
+        "immersive": true
       }
     },
     "fitment": {

@@ -1,6 +1,6 @@
 # BXR Competition — Shopify theme
 
-Paddock Editions 1.6.2. A native Shopify theme based on Dawn for racing tires and braking components.
+Paddock Editions 1.7.0. A native Shopify theme based on Dawn for racing tires and braking components.
 
 ## Connect in Shopify
 
@@ -118,3 +118,10 @@ Included film source: [Stunning Cinematic Sports Car Animation](https://www.pexe
 Replaced the slow showroom orbit with a five-shot, eight-second CGI driving edit: a low tracking view of a red/black competition coupe, splitter detail, rear detail, a close pass and a return to the tracking shot. Desktop and mobile have separate reframing and matching first-frame posters. The carousel controls, hover pause, reduced-motion fallback and merchant video override are unchanged.
 
 Film source: [Sports Car Video Footage](https://www.motionforgepictures.com/sports-car-video-footage/) by Chris J Mitchell / Motion Forge Pictures, published June 1, 2023; downloaded September 13, 2026. Source clips 0001, 0005, 0006 and 0009 were trimmed, sequenced, color graded, reframed and compressed for this storefront. The publisher's [license terms](https://www.motionforgepictures.com/terms-and-conditions/) permit commercial website use and require credit; the About page contains a Film credits disclosure including “Models or Textures Supplied by Motion Forge Pictures.” The original download also includes a Creative Commons notice without a specific variant, so no CC0 or specific CC variant is claimed here. Original production files are not distributed in this theme. These videos are illustrative stock CGI and do not imply ownership or manufacturer endorsement.
+
+
+### 1.7.0 — Porsche 911 development storefront
+
+The connected development store now uses the reviewed Porsche 911 GT3 RS Nürburgring edit, with separate desktop/mobile MP4 files and posters. The homepage enables the full-screen layout, transparent navigation over the hero, an opaque navigation background after scrolling, and right-positioned desktop copy. Other page headers stay solid.
+
+Footage source: Porsche AG, https://newstv.porsche.com/porschevideos/226786_en_3000000.mp4. The user requested this material for development/self-testing; no commercial license is claimed. Replace the footage or secure appropriate rights before commercial use. These are native theme assets, so a push to the connected main branch synchronizes the film and markup together.

@@ -131,6 +131,9 @@
           {%- if collection.products.size == 0 -%}
             <div class="collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
               <div class="loading-overlay gradient"></div>
+              {% if collection.all_products_count == 0 %}
+                {% render 'bxr-catalog-empty' %}
+              {% else %}
               <div class="title-wrapper center">
                 <h2 class="title title--primary">
                   {{ 'sections.collection_template.empty' | t -}}
@@ -141,6 +144,7 @@
                   }}
                 </h2>
               </div>
+              {% endif %}
             </div>
           {%- else -%}
             <div

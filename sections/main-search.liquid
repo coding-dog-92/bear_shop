@@ -79,6 +79,7 @@
         {%- endif -%}
         <main-search>
           <form action="{{ routes.search_url }}" method="get" role="search" class="search">
+            <input type="hidden" name="type" value="product">
             <div class="field">
               <input
                 class="search__input field__input"
@@ -142,6 +143,10 @@
         {%- endunless -%}
         {%- if search.results_count == 0 and search.filters == empty -%}
           <p role="status">{{ 'templates.search.no_results' | t: terms: search.terms }}</p>
+          <div class="rw-actions bxr-search-help">
+            <a class="rw-button" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}">Ask about a part{% render 'rw-icon', name: 'arrow' %}</a>
+            <a class="rw-text-link" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}">Explore setup guides</a>
+          </div>
         {%- endif -%}
       {%- endif -%}
     </div>

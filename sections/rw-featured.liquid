@@ -10,8 +10,8 @@
       {% assign assets = 'rw-product-tire.webp,rw-product-caliper.webp,rw-product-rotor.webp' | split: ',' %}
       {% for title in titles %}
         <article class="rw-product-card">
-          <a class="rw-product-image" href="{{ routes.all_products_collection_url }}">{% render 'rw-image', fallback: assets[forloop.index0], alt: title, loading: 'lazy', sizes: '(min-width: 750px) 30vw, 50vw', width: 1000, height: 800 %}</a>
-          <h3>{{ title }}</h3><a class="rw-text-link" href="{{ routes.all_products_collection_url }}">Explore collection{% render 'rw-icon', name: 'arrow' %}</a>
+          <a class="rw-product-image" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}#{% if forloop.first %}tires{% else %}brakes{% endif %}">{% render 'rw-image', fallback: assets[forloop.index0], alt: title, loading: 'lazy', sizes: '(min-width: 750px) 30vw, 50vw', width: 1000, height: 800 %}</a>
+          <h3>{{ title }}</h3><p class="rw-concept-label">Category preview · illustrative image</p><a class="rw-text-link" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}#{% if forloop.first %}tires{% else %}brakes{% endif %}">Explore the guide{% render 'rw-icon', name: 'arrow' %}</a>
         </article>
       {% endfor %}
     {% else %}

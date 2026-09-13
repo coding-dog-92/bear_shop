@@ -1,6 +1,6 @@
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 <section class="rw-featured rw-gutter" aria-labelledby="RWFeatured-{{ section.id }}">
-  <div class="rw-section-heading"><h2 id="RWFeatured-{{ section.id }}">{{ section.settings.heading | escape }}</h2><a class="rw-text-link" href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}">Explore all parts{% render 'rw-icon', name: 'arrow' %}</a></div>
+  <div class="rw-section-heading"><div><h2 id="RWFeatured-{{ section.id }}">{{ section.settings.heading | escape }}</h2><p class="bxr-section-description">{{ section.settings.description | escape }}</p></div><a class="rw-text-link" href="{{ routes.all_products_collection_url }}">View all parts{% render 'rw-icon', name: 'arrow' %}</a></div>
   <div class="rw-products">
     {% if section.settings.collection != blank and section.settings.collection.products_count > 0 %}
       {% for product in section.settings.collection.products limit: section.settings.limit %}
@@ -21,6 +21,7 @@
   </div>
 </section>
 
+
 {% schema %}
 {
   "name": "BXR featured parts",
@@ -29,7 +30,13 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Featured Parts"
+      "default": "Selected for the circuit"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Introduction",
+      "default": "A selection from our catalog."
     },
     {
       "type": "collection",

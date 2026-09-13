@@ -249,3 +249,58 @@ function prefillBxrContact() {
 }
 prefillBxrContact();
 document.addEventListener('shopify:section:load', prefillBxrContact);
+
+class BxrDialog extends HTMLElement {
+  connectedCallback() {
+    this.controller?.abort();
+    this.controller = new AbortController();
+    this.dialog = this.querySelector('dialog');
+    const signal = this.controller.signal;
+    this.addEventListener('click', (event) => {
+      if (event.target.closest('[data-bxr-close]')) this.dialog.close();
+      if (event.target !== this.dialog) return;
+      const bounds = this.dialog.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) this.dialog.close();
+    }, { signal });
+    this.dialog.addEventListener('close', () => {
+      if (!document.querySelector('.bxr-drawer[open]')) document.body.classList.remove('bxr-dialog-open');
+      if (this.opener?.isConnected) this.opener.focus({ preventScroll: true });
+    }, { signal });
+  }
+
+  show(opener) {
+    if (this.dialog.open) return;
+    this.opener = opener;
+    document.querySelectorAll('.rw-mobile-nav[open]').forEach((menu) => { menu.open = false; });
+    this.dialog.showModal();
+    document.body.classList.add('bxr-dialog-open');
+  }
+
+  disconnectedCallback() {
+    this.controller?.abort();
+    if (!document.querySelector('.bxr-drawer[open]')) document.body.classList.remove('bxr-dialog-open');
+  }
+}
+if (!customElements.get('bxr-dialog')) customElements.define('bxr-dialog', BxrDialog);
+
+document.addEventListener('click', (event) => {
+  const opener = event.target.closest('[data-bxr-open]');
+  if (opener) document.getElementById(opener.dataset.bxrOpen)?.closest('bxr-dialog')?.show(opener);
+});
+
+class BxrFooter extends HTMLElement {
+  connectedCallback() {
+    this.controller?.abort();
+    this.controller = new AbortController();
+    this.desktop = matchMedia('(min-width: 750px)');
+    this.groups = [...this.querySelectorAll('.bxr-footer-group')];
+    const sync = () => this.groups.forEach((group) => { group.open = this.desktop.matches; });
+    this.desktop.addEventListener('change', sync, { signal: this.controller.signal });
+    this.groups.forEach((group) => group.querySelector('summary').addEventListener('click', (event) => {
+      if (this.desktop.matches) event.preventDefault();
+    }, { signal: this.controller.signal }));
+    sync();
+  }
+  disconnectedCallback() { this.controller?.abort(); }
+}
+if (!customElements.get('bxr-footer')) customElements.define('bxr-footer', BxrFooter);

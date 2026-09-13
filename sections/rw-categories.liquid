@@ -1,25 +1,46 @@
-<section class="rw-categories" aria-label="Shop by category">
+<section class="bxr-category-section rw-gutter" aria-labelledby="BxrCategories-{{ section.id }}">
+  <h2 class="bxr-section-title" id="BxrCategories-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+  <div class="rw-categories">
   {% for block in section.blocks %}
     {% capture destination %}{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}{% render 'bxr-category-url', category: block.settings.category, collection: block.settings.collection, settings: settings %}{% endif %}{% endcapture %}
-    {% assign fallback = 'rw-tires.webp' %}{% if forloop.index == 2 %}{% assign fallback = 'rw-brakes.webp' %}{% endif %}
-    <a class="rw-category" href="{{ destination | strip }}" {{ block.shopify_attributes }}>
-      {% render 'rw-image', image: block.settings.image, fallback: fallback, alt: block.settings.subtitle, loading: 'lazy', sizes: '(min-width: 750px) 50vw, 100vw', width: 1200, height: 1000 %}
-      <div class="rw-category-copy"><h2>{{ block.settings.subtitle | escape }}</h2><p>{{ block.settings.heading | escape }}</p><span class="rw-text-link">{{ block.settings.label | escape }}{% render 'rw-icon', name: 'arrow' %}</span></div>
-    </a>
+    {% assign fallback = 'rw-tires.webp' %}{% if block.settings.category == 'brakes' %}{% assign fallback = 'rw-brakes.webp' %}{% endif %}
+    <a class="rw-category" href="{{ destination | strip }}" {{ block.shopify_attributes }}><div class="bxr-category-image">{% render 'rw-image', image: block.settings.image, fallback: fallback, alt: block.settings.subtitle, loading: 'lazy', sizes: '(min-width: 750px) 45vw, 45vw', width: 1200, height: 1000 %}</div><div class="rw-category-copy"><h3>{{ block.settings.subtitle | escape }}</h3>{% render 'rw-icon', name: 'arrow' %}</div></a>
   {% endfor %}
+  </div>
 </section>
-
 {% schema %}
 {
   "name": "BXR categories",
   "max_blocks": 2,
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "Shop by category"
+    }
+  ],
   "blocks": [
     {
       "type": "category",
       "name": "Category",
       "settings": [
-        {"type":"select","id":"category","label":"Default product category","options":[{"value":"tires","label":"Racing tires"},{"value":"brakes","label":"Braking components"}],"default":"tires"},
+        {
+          "type": "select",
+          "id": "category",
+          "label": "Default product category",
+          "options": [
+            {
+              "value": "tires",
+              "label": "Racing tires"
+            },
+            {
+              "value": "brakes",
+              "label": "Braking components"
+            }
+          ],
+          "default": "tires"
+        },
         {
           "type": "image_picker",
           "id": "image",
@@ -27,21 +48,9 @@
         },
         {
           "type": "text",
-          "id": "heading",
-          "label": "Headline",
-          "default": "Grip starts here."
-        },
-        {
-          "type": "text",
           "id": "subtitle",
           "label": "Category name",
           "default": "Racing tires"
-        },
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Link label",
-          "default": "Explore tires"
         },
         {
           "type": "collection",
@@ -67,9 +76,7 @@
           "type": "category",
           "settings": {
             "category": "brakes",
-            "heading": "Make every braking point count.",
-            "subtitle": "Braking systems",
-            "label": "View brake systems"
+            "subtitle": "Braking systems"
           }
         }
       ]

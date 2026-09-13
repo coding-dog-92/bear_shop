@@ -5,12 +5,7 @@
     {% else %}<a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>{% endif %}
   {% endfor %}
 {% else %}
-  <details class="rw-nav-dropdown"><summary>Shop{% render 'rw-icon', name: 'caret' %}</summary><div>
-    <a href="{% render 'bxr-category-url', category: 'tires', collection: tires_collection, settings: settings %}">Racing tires</a>
-    <a href="{% render 'bxr-category-url', category: 'brakes', collection: brakes_collection, settings: settings %}">Braking systems</a>
-    <a href="{{ routes.all_products_collection_url }}">All parts</a>
-  </div></details>
-  <a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}">Guides</a>
-  <a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'about' %}">About BXR</a>
-  <a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}">Support</a>
+  <a href="{% render 'bxr-category-url', category: 'tires', collection: tires_collection, settings: settings %}">Tires</a>
+  <a href="{% render 'bxr-category-url', category: 'brakes', collection: brakes_collection, settings: settings %}">Brakes</a>
+  <a href="{{ routes.all_products_collection_url }}">All parts</a>
 {% endif %}

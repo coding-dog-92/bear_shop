@@ -7,5 +7,4 @@
   <h3><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
   {% if product.type != blank %}<p class="bxr-product-summary">{{ product.type | escape }}{% if product.variants.size > 1 %} · {{ product.variants.size }} options{% endif %}</p>{% endif %}
   {% if show_price %}<div class="rw-product-price">{% render 'price', product: product, use_variant: false %}</div>{% endif %}
-  <a class="rw-text-link" href="{{ product.url }}">View details{% render 'rw-icon', name: 'arrow' %}</a>
 </article>

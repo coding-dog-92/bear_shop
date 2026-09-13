@@ -1,5 +1,5 @@
-<section class="rw-fitment rw-gutter" id="rw-fitment" aria-labelledby="RWFitment-{{ section.id }}">
-  <div class="bxr-finder-intro"><div><p class="rw-eyebrow">YOUR CAR. YOUR SETUP.</p><h2 id="RWFitment-{{ section.id }}">{{ section.settings.heading | escape }}</h2></div><p>{{ section.settings.introduction | escape }}</p></div>
+<section class="rw-fitment rw-gutter" id="rw-fitment" aria-labelledby="RWFitment-{{ section.id }}"><div class="bxr-fitment-entry"><h2 id="RWFitment-{{ section.id }}">{{ section.settings.heading | escape }}</h2><button class="bxr-fitment-open" type="button" data-bxr-open="BxrFitment-{{ section.id }}" aria-haspopup="dialog" aria-controls="BxrFitment-{{ section.id }}">Select vehicle{% render 'rw-icon', name: 'arrow' %}</button></div><noscript><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}">Contact us about vehicle fitment</a></noscript></section>
+<bxr-dialog><dialog class="bxr-drawer" id="BxrFitment-{{ section.id }}" aria-labelledby="BxrFitmentTitle-{{ section.id }}"><div class="bxr-drawer-heading"><div><p class="rw-eyebrow">VEHICLE FITMENT</p><h2 id="BxrFitmentTitle-{{ section.id }}">Find parts for your car</h2></div><button class="rw-icon-button" type="button" data-bxr-close aria-label="Close vehicle finder">{% render 'rw-icon', name: 'close' %}</button></div><p class="bxr-drawer-intro">{{ section.settings.introduction | escape }}</p>
   <rw-fitment data-support-url="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}">
     <form class="rw-fitment-form">
       <label class="rw-select-wrap" for="FitmentYear-{{ section.id }}"><span>Year</span><select id="FitmentYear-{{ section.id }}" data-field="year" name="year" required><option value="">Select year</option>{% assign current_year = 'now' | date: '%Y' | plus: 1 %}{% for year in (1980..current_year) reversed %}<option value="{{ year }}">{{ year }}</option>{% endfor %}</select></label>
@@ -15,25 +15,72 @@
     </ul>
     <noscript><p>Enable JavaScript to check fitment, or <a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}">send us your vehicle details</a>.</p></noscript>
   </rw-fitment>
-  <p class="bxr-finder-note">{{ section.settings.note | escape }} <a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}#tires">Already know your tire size?</a></p>
-</section>
+<p class="bxr-finder-note">{{ section.settings.note | escape }}</p><a class="rw-text-link" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}#tires">Already know your tire size?{% render 'rw-icon', name: 'arrow' %}</a></dialog></bxr-dialog>
 {% schema %}
 {
-  "name":"BXR vehicle finder",
-  "max_blocks":50,
-  "settings":[
-    {"type":"paragraph","content":"Add verified vehicle mappings below. Visitors can enter any vehicle. Only exact configured matches are returned; unmatched vehicles can be sent to Support. Never enter illustrative or unverified compatibility records."},
-    {"type":"text","id":"heading","label":"Heading","default":"Find parts for your car"},
-    {"type":"textarea","id":"introduction","label":"Introduction","default":"Have a car in mind? Check the catalog by vehicle, or send us your setup details."},
-    {"type":"text","id":"note","label":"Fitment note","default":"Match the exact part specifications to your vehicle before ordering."}
+  "name": "BXR vehicle finder",
+  "max_blocks": 50,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Add verified vehicle mappings below. Visitors can enter any vehicle. Only exact configured matches are returned; unmatched vehicles can be sent to Support. Never enter illustrative or unverified compatibility records."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Find parts for your car"
+    },
+    {
+      "type": "textarea",
+      "id": "introduction",
+      "label": "Introduction",
+      "default": "Have a car in mind? Check the catalog by vehicle, or send us your setup details."
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Fitment note",
+      "default": "Match the exact part specifications to your vehicle before ordering."
+    }
   ],
-  "blocks":[{"type":"vehicle","name":"Verified vehicle mapping","settings":[
-    {"type":"text","id":"year","label":"Year"},
-    {"type":"text","id":"make","label":"Make"},
-    {"type":"text","id":"model","label":"Model"},
-    {"type":"text","id":"trim","label":"Trim / submodel (optional)"},
-    {"type":"url","id":"destination","label":"Verified product or collection URL"}
-  ]}],
-  "presets":[{"name":"BXR vehicle finder"}]
+  "blocks": [
+    {
+      "type": "vehicle",
+      "name": "Verified vehicle mapping",
+      "settings": [
+        {
+          "type": "text",
+          "id": "year",
+          "label": "Year"
+        },
+        {
+          "type": "text",
+          "id": "make",
+          "label": "Make"
+        },
+        {
+          "type": "text",
+          "id": "model",
+          "label": "Model"
+        },
+        {
+          "type": "text",
+          "id": "trim",
+          "label": "Trim / submodel (optional)"
+        },
+        {
+          "type": "url",
+          "id": "destination",
+          "label": "Verified product or collection URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BXR vehicle finder"
+    }
+  ]
 }
 {% endschema %}

@@ -1,23 +1,4 @@
-<section class="rw-guide" id="rw-guides" aria-labelledby="RWGuide-{{ section.id }}">
-  <div class="rw-guide-banner">
-    {% render 'rw-image', image: section.settings.image, fallback: 'rw-guide.webp', alt: 'Close-up of racing tire rubber', loading: 'lazy', sizes: '100vw', width: 2007, height: 783 %}
-    <div class="rw-guide-copy"><p class="rw-eyebrow">TECHNICAL GUIDES</p><h2 id="RWGuide-{{ section.id }}">{{ section.settings.heading | escape }}</h2><p>{{ section.settings.description | escape }}</p>
-      {% if section.settings.link != blank %}<a class="rw-text-link" href="{{ section.settings.link }}">Explore guides{% render 'rw-icon', name: 'arrow' %}</a>{% else %}<a class="rw-text-link" href="#RWGuideArticles-{{ section.id }}" data-guide-open>Explore guides{% render 'rw-icon', name: 'arrow' %}</a>{% endif %}
-    </div>
-  </div>
-  {% if section.settings.link != blank and section.blocks.size > 0 %}
-    <div class="bxr-guide-links rw-gutter">{% for block in section.blocks %}<article {{ block.shopify_attributes }}><p class="rw-eyebrow">GUIDE 0{{ forloop.index }}</p><h3>{{ block.settings.title | escape }}</h3><div>{{ block.settings.body }}</div><a class="rw-text-link" href="{{ block.settings.link | default: section.settings.link }}">Read guide{% render 'rw-icon', name: 'arrow' %}</a></article>{% endfor %}</div>
-  {% endif %}
-  {% if section.settings.link == blank %}
-    <details class="rw-guide-articles rw-gutter" id="RWGuideArticles-{{ section.id }}">
-      <summary>Setup essentials{% render 'rw-icon', name: 'plus' %}</summary>
-      <div class="rw-guide-article-grid">
-        {% for block in section.blocks %}<article {{ block.shopify_attributes }}><h3>{{ block.settings.title | escape }}</h3><div>{{ block.settings.body }}</div></article>{% endfor %}
-      </div>
-    </details>
-  {% endif %}
-</section>
-
+<section class="rw-guide bxr-paddock-guide" id="rw-guides" aria-labelledby="RWGuide-{{ section.id }}"><div class="bxr-guide-photo">{% render 'rw-image', image: section.settings.image, fallback: 'bxr-paddock-guide.webp', alt: 'Racing wheel and air tool in a pit lane', loading: 'lazy', sizes: '(min-width: 750px) 50vw, 100vw', width: 1600, height: 1000 %}</div><div class="rw-guide-copy"><p class="rw-eyebrow">SETUP GUIDES</p><h2 id="RWGuide-{{ section.id }}">{{ section.settings.heading | escape }}</h2><p>{{ section.settings.description | escape }}</p><a class="rw-text-link" href="{% if section.settings.link != blank %}{{ section.settings.link }}{% else %}{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}{% endif %}">Explore guides{% render 'rw-icon', name: 'arrow' %}</a></div></section>
 {% schema %}
 {
   "name": "BXR guides",
@@ -31,7 +12,7 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Know your setup."
+      "default": "A closer look at your setup."
     },
     {
       "type": "textarea",
@@ -43,25 +24,6 @@
       "type": "url",
       "id": "link",
       "label": "Blog or guides page (optional)"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "guide",
-      "name": "Setup note",
-      "settings": [
-        {"type":"url","id":"link","label":"Guide destination (optional)"},
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title"
-        },
-        {
-          "type": "richtext",
-          "id": "body",
-          "label": "Content"
-        }
-      ]
     }
   ],
   "presets": [

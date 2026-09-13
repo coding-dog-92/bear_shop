@@ -1,6 +1,6 @@
 # BXR Competition — Shopify theme
 
-Circuit Cinema 1.3.0. A native Shopify theme based on Dawn for racing tires and braking components.
+Paddock Editions 1.4.0. A native Shopify theme based on Dawn for racing tires and braking components.
 
 ## Connect in Shopify
 
@@ -65,3 +65,15 @@ Based on Shopify Dawn. See LICENSE.md for the upstream MIT license.
 - Product search keeps its product-only scope when submitted again.
 - Live verification after GitHub sync: home, search, collection, guides, about, support and cart passed at 1440 and 390 px; no JavaScript errors or horizontal overflow. Real product detail/purchase flow remains untested because the storefront currently exposes no products.
 - Run `node scripts/check-theme-config.mjs` to detect missing schema, invalid menu defaults and incompatible numeric values before pushing.
+
+
+## 1.4.0 Paddock Editions
+
+- Implements the selected warm-paper desktop/mobile design, with new daytime pit-lane photography and a compact centered header.
+- Section titles explain the browsing journey: Shop by category, Find parts for your car, Selected for the circuit, and Setup guides.
+- Category cards open their corresponding catalog categories. Featured products come from the editor-selected collection; View all parts always opens the complete `/collections/all` catalog. A small test catalog can naturally contain the same products in both places.
+- Search and vehicle fitment open native modal drawers. Escape, close buttons and backdrop dismiss them; focus returns to the trigger and the vehicle inputs remain intact on reopening. A no-JavaScript search form and fitment contact link remain available.
+- Product cards open the native product detail page from their image/name. Product outlines use contain sizing; sale/from-price logic remains Shopify-native. There are no duplicate per-card browse buttons.
+- Footer groups remain expanded on desktop and become native disclosures on mobile. Account, contact and policy destinations are preserved.
+- The existing brand section is retained but disabled to avoid duplicating the guide/support content. Guides link to the dedicated guide page, not back to products.
+- Real vehicle-to-product mapping data is still merchant-managed under BXR vehicle finder. This release does not invent product compatibility or business policies.

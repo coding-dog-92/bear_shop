@@ -19,3 +19,17 @@ Corrections after screenshot review: removed inherited mobile carousel grid flow
 Intentional differences: actual test product imagery/names replace generated mockup product branding; no invented specifications or verified fitments. Hero copy explicitly describes the store's tires and braking components. Native Shopify page routing, account and commerce remain in place. This is a design and theme interaction check, not a completed purchase or contact submission.
 
 Static checks: JavaScript syntax and 130 global setting checks pass. Shopify Theme Check has zero errors; its remaining warnings concern existing theme patterns. Local browser console reported no errors. Live synchronization and navigation are verified separately after push.
+
+## Live Shopify verification
+
+Verified on the published GitHub-connected theme after commits dcaf5be and b65ae74:
+
+- New homepage, daylit responsive hero and headings are present on the live store.
+- Search for tire returns one real catalog result; Tires category contains one product; View all parts enters /collections/all with three products.
+- Mobile product gallery switches to the second image. Selecting 265/35 R18 through its visible label updates the price from $295 to $325.
+- Add to cart reaches a cart containing the chosen test product. That test line was removed afterward; the empty cart state was confirmed. No checkout or order was submitted.
+- Unknown vehicle 2024 Porsche 911 gives an explicit unverified-match message and pre-fills the support form with those details. No contact form was submitted.
+- Explore guides opens the populated tire, brake and preparation guide page. Mobile menu Escape returns to collapsed state.
+- Found and corrected an existing catalog problem: blank live card style caused duplicate product titles over images. The card snippet now falls back to standard; live computed styles show the image-overlay information hidden and the normal product information visible. The primary add-to-cart button now has a distinct charcoal background.
+
+Known content/configuration limits: three illustrative demo products; no live verified vehicle mappings; the live cart currently reports SGD. These are merchant data/settings, not a completed US-market launch. Local fixture prices used USD and were not substituted for live catalog pricing. Updated live mobile screenshot: live-mobile-home.png in the evidence directory.

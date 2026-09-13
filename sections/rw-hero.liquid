@@ -5,8 +5,11 @@
         assign artwork = block.settings.artwork | default: 'hero'
         assign fallback = 'rw-' | append: artwork | append: '.webp'
         if artwork == 'hero'
-          assign fallback = 'bxr-paddock-hero.webp'
+          assign fallback = 'bxr-clean-hero.webp'
+        elsif artwork == 'slide-tires'
+          assign fallback = 'bxr-clean-tires.webp'
         endif
+        assign mobile_fallback = fallback | replace: '.webp', '-mobile.webp'
         assign loading = 'lazy'
         assign priority = 'auto'
         if forloop.first
@@ -20,8 +23,7 @@
           {% if block.settings.mobile_image != blank %}
             <source media="(max-width: 749px)" srcset="{{ block.settings.mobile_image | image_url: width: 900 }}">
           {% elsif block.settings.image == blank %}
-            {% if artwork == 'hero' %}<source media="(max-width: 749px)" srcset="{{ 'bxr-paddock-hero-mobile.webp' | asset_url }}">
-            {% else %}<source media="(max-width: 749px)" srcset="{{ 'rw-' | append: artwork | append: '-mobile.webp' | asset_url }}">{% endif %}
+            <source media="(max-width: 749px)" srcset="{{ mobile_fallback | asset_url }}">
           {% endif %}
           {% render 'rw-image', image: block.settings.image, fallback: fallback, alt: block.settings.image_alt, loading: loading, priority: priority, sizes: '100vw', width: 1920, height: 1040 %}
         </picture>

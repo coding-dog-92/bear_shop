@@ -4,7 +4,7 @@
   if template.name == 'index'
     case template.suffix
       when 'bxr-about'
-        assign bxr_page_title = 'About BXR Competition'
+        assign bxr_page_title = 'About All Star North American'
         assign bxr_content_page = settings.bxr_about_page
       when 'bxr-guides'
         assign bxr_page_title = 'Guides'
@@ -38,7 +38,7 @@
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
-    {% assign bxr_browser_brand = settings.bxr_brand_name | default: 'BXR Competition' %}
+    {% assign bxr_browser_brand = settings.bxr_brand_name | default: 'All Star North American' %}
     {% if bxr_page_title == shop.name %}{% assign bxr_page_title = bxr_browser_brand %}{% endif %}
     <title>
       {{ bxr_page_title | escape }}

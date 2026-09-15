@@ -1,0 +1,9 @@
+{% assign brand_name = settings.bxr_brand_name | default: 'All Star North American' %}
+<a class="rw-brand as-brand" href="{{ routes.root_url }}" aria-label="{{ brand_name | escape }} home">
+  {% if logo != blank %}
+    {{ logo | image_url: width: 480 | image_tag: widths: '120, 240, 480', sizes: '72px', alt: '', class: 'as-custom-logo' }}
+  {% else %}
+    <span class="as-logo-frame"><img src="{{ 'all-star-logo.jpg' | asset_url }}" width="1122" height="1402" alt="" loading="eager"></span>
+  {% endif %}
+  <span class="as-brand-name">{{ brand_name | escape | replace: 'North American', 'North&nbsp;American' }}</span>
+</a>

@@ -1,9 +1,9 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "BXR Competition",
-    "theme_version": "1.8.0",
-    "theme_author": "BXR Competition / Shopify Dawn",
+    "theme_name": "All Star North American",
+    "theme_version": "1.9.0",
+    "theme_author": "All Star North American / Shopify Dawn",
     "theme_documentation_url": "https://help.shopify.com/en/manual/online-store/themes",
     "theme_support_url": "https://help.shopify.com/"
   },
@@ -1481,7 +1481,7 @@
       {
         "type": "page",
         "id": "bxr_about_page",
-        "label": "About BXR page"
+        "label": "About us page"
       },
       {
         "type": "page",
@@ -1496,8 +1496,8 @@
       {
         "type": "text",
         "id": "bxr_brand_name",
-        "label": "Browser title brand",
-        "default": "BXR Competition"
+        "label": "Storefront brand name",
+        "default": "All Star North American"
       },
       {
         "type": "paragraph",

@@ -2,12 +2,12 @@
   {% capture support_url %}{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'support' %}{% endcapture %}
   {% if support_url contains '?' %}{% assign query_separator = '&amp;' %}{% else %}{% assign query_separator = '?' %}{% endif %}
   <div class="bxr-footer-top">
-    <div class="bxr-footer-brand"><a class="rw-brand" href="{{ routes.root_url }}">{{ section.settings.brand | escape }}</a><p>{{ section.settings.description | escape }}</p>{% if section.settings.email != blank %}<a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a>{% endif %}{% if section.settings.hours != blank %}<p>{{ section.settings.hours | escape }}</p>{% endif %}</div>
+    <div class="bxr-footer-brand">{% render 'as-brand', logo: settings.logo %}<p>{{ section.settings.description | escape }}</p>{% if section.settings.email != blank %}<a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email | escape }}</a>{% endif %}{% if section.settings.hours != blank %}<p>{{ section.settings.hours | escape }}</p>{% endif %}</div>
     <details class="bxr-footer-group" open><summary><h2>Shop</h2>{% render 'rw-icon', name: 'plus' %}</summary><nav aria-label="Footer shop"><a href="{{ routes.all_products_collection_url }}">All parts</a><a href="{% render 'bxr-category-url', category: 'tires', settings: settings %}">Racing tires</a><a href="{% render 'bxr-category-url', category: 'brakes', settings: settings %}">Braking components</a></nav></details>
     <details class="bxr-footer-group" open><summary><h2>Help</h2>{% render 'rw-icon', name: 'plus' %}</summary><nav aria-label="Customer care"><a href="{{ support_url }}">Contact us</a><a href="{% if shop.shipping_policy != blank %}{{ shop.shipping_policy.url }}{% else %}{{ support_url }}{{ query_separator }}topic=Shipping%20%26%20returns#contact{% endif %}">{% if shop.shipping_policy != blank %}Shipping policy{% else %}Shipping questions{% endif %}</a><a href="{% if shop.refund_policy != blank %}{{ shop.refund_policy.url }}{% else %}{{ support_url }}{{ query_separator }}topic=Shipping%20%26%20returns#contact{% endif %}">{% if shop.refund_policy != blank %}Returns policy{% else %}Returns questions{% endif %}</a>{% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">My account &amp; orders</a>{% else %}<a href="{{ support_url }}{{ query_separator }}topic=Existing%20order#contact">Order help</a>{% endif %}</nav></details>
-    <details class="bxr-footer-group" open><summary><h2>BXR</h2>{% render 'rw-icon', name: 'plus' %}</summary><nav aria-label="Footer information"><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'about' %}">About BXR</a><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}">Setup guides</a></nav></details>
+    <details class="bxr-footer-group" open><summary><h2>Company</h2>{% render 'rw-icon', name: 'plus' %}</summary><nav aria-label="Footer information"><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'about' %}">About us</a><a href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'guides' %}">Setup guides</a></nav></details>
   </div>
-  <div class="bxr-footer-bottom"><small>&copy; {{ 'now' | date: '%Y' }} {{ section.settings.brand | escape }}</small><nav aria-label="Store policies">{% for policy in shop.policies %}{% if policy != blank %}<a href="{{ policy.url }}">{{ policy.title | escape }}</a>{% endif %}{% endfor %}</nav>{% if section.settings.show_payments %}<ul class="bxr-payment-icons" role="list">{% for type in shop.enabled_payment_types %}<li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>{% endfor %}</ul>{% endif %}</div>
+  <div class="bxr-footer-bottom"><small>&copy; {{ 'now' | date: '%Y' }} {{ settings.bxr_brand_name | default: section.settings.brand | escape }}</small><nav aria-label="Store policies">{% for policy in shop.policies %}{% if policy != blank %}<a href="{{ policy.url }}">{{ policy.title | escape }}</a>{% endif %}{% endfor %}</nav>{% if section.settings.show_payments %}<ul class="bxr-payment-icons" role="list">{% for type in shop.enabled_payment_types %}<li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>{% endfor %}</ul>{% endif %}</div>
 </footer></bxr-footer>
 {% schema %}
 {
@@ -17,7 +17,8 @@
       "type": "text",
       "id": "brand",
       "label": "Brand",
-      "default": "BXR Competition"
+      "default": "All Star North American",
+      "info": "The shared name is managed in Theme settings > BXR store & catalog > Storefront brand name."
     },
     {
       "type": "text",

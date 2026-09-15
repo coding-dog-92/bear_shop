@@ -1,5 +1,5 @@
 <section class="bxr-brand-story rw-gutter" aria-labelledby="BXRStory-{{ section.id }}">
-  <div class="bxr-brand-lead"><p class="rw-eyebrow">{{ section.settings.eyebrow | escape }}</p><h2 id="BXRStory-{{ section.id }}">{{ section.settings.heading | escape }}</h2><div class="rte">{{ section.settings.body }}</div><a class="rw-text-link" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'about' %}">Meet BXR Competition{% render 'rw-icon', name: 'arrow' %}</a></div>
+  <div class="bxr-brand-lead"><p class="rw-eyebrow">{{ section.settings.eyebrow | escape }}</p><h2 id="BXRStory-{{ section.id }}">{{ section.settings.heading | escape }}</h2><div class="rte">{{ section.settings.body }}</div><a class="rw-text-link" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: 'about' %}">About us{% render 'rw-icon', name: 'arrow' %}</a></div>
   <div class="bxr-brand-points">{% for block in section.blocks %}<article {{ block.shopify_attributes }}><span class="rw-eyebrow">0{{ forloop.index }}</span><h3>{{ block.settings.heading | escape }}</h3><p>{{ block.settings.body | escape }}</p><a class="rw-text-link" href="{% render 'bxr-page-url', routes: routes, settings: settings, destination: block.settings.destination %}{% if block.settings.destination == 'support' %}#contact{% endif %}">{{ block.settings.label | escape }}{% render 'rw-icon', name: 'arrow' %}</a></article>{% endfor %}</div>
 </section>
 {% schema %}
@@ -8,15 +8,15 @@
   "max_blocks":3,
   "settings":[
     {"type":"paragraph","content":"Use verified company and service information. Do not add unsupported supplier, warehouse, certification or delivery claims."},
-    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"BXR COMPETITION"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"ALL STAR NORTH AMERICAN"},
     {"type":"text","id":"heading","label":"Heading","default":"Your next chapter on the circuit."},
-    {"type":"richtext","id":"body","label":"Introduction","default":"<p>Racing tires and braking components are at the center of BXR Competition. Explore the parts, understand the setup, and bring your questions to us before choosing.</p>"}
+    {"type":"richtext","id":"body","label":"Introduction","default":"<p>Racing tires and braking components are at the center of All Star North American. Explore the parts, understand the setup, and bring your questions to us before choosing.</p>"}
   ],
   "blocks":[{"type":"point","name":"Brand or service point","settings":[
     {"type":"text","id":"heading","label":"Heading"},
     {"type":"textarea","id":"body","label":"Description"},
     {"type":"text","id":"label","label":"Link label"},
-    {"type":"select","id":"destination","label":"Destination","options":[{"value":"guides","label":"Guides"},{"value":"support","label":"Support"},{"value":"about","label":"About BXR"}],"default":"support"}
+    {"type":"select","id":"destination","label":"Destination","options":[{"value":"guides","label":"Guides"},{"value":"support","label":"Support"},{"value":"about","label":"About us"}],"default":"support"}
   ]}],
   "presets":[{"name":"BXR brand & support","blocks":[
     {"type":"point","settings":{"heading":"Understand your setup","body":"Start with tire dimensions, brake specifications and the details that matter for your application.","label":"Read the guides","destination":"guides"}},

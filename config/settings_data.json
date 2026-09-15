@@ -154,7 +154,7 @@
     "badge_corner_radius": 40,
     "sale_badge_color_scheme": "scheme-4",
     "sold_out_badge_color_scheme": "scheme-3",
-    "brand_headline": "BXR Competition",
+    "brand_headline": "All Star North American",
     "brand_description": "<p></p>",
     "brand_image_width": 100,
     "social_twitter_link": "",
@@ -188,7 +188,8 @@
           "color_scheme": "scheme-1"
         }
       }
-    }
+    },
+    "bxr_brand_name": "All Star North American"
   },
   "presets": {
     "Circuit Cinema": {
@@ -346,7 +347,7 @@
       "badge_corner_radius": 40,
       "sale_badge_color_scheme": "scheme-4",
       "sold_out_badge_color_scheme": "scheme-3",
-      "brand_headline": "BXR Competition",
+      "brand_headline": "All Star North American",
       "brand_description": "<p></p>",
       "brand_image_width": 100,
       "social_twitter_link": "",

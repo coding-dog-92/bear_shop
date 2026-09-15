@@ -1,6 +1,6 @@
-# BXR Competition — Shopify theme
+# All Star North American — Shopify theme
 
-Paddock Editions 1.8.0. A native Shopify theme based on Dawn for racing tires and braking components.
+Paddock Editions 1.9.0. A native Shopify theme based on Dawn for racing tires and braking components.
 
 ## Connect in Shopify
 
@@ -145,3 +145,8 @@ The homepage no longer rotates slides on a timer. The film loops in place; dots 
 ### 1.8.0 — A focused storefront homepage
 
 Homepage content is now hero, shop, two compact buying guides, and three purchase-help questions. Repetitive category editorials, the unpopulated fitment finder and generic brand campaign are disabled on the homepage and remain available in the theme editor. Product and FAQ fitment links go directly to the contact form. About and the full guides remain accessible through navigation and the footer.
+
+
+### 1.9.0 — All Star North American
+
+Renames the storefront brand, navigation copy, About content, copyright and social metadata. Header and footer use the supplied All Star artwork without altering the original image; a responsive frame removes excess outer black space while keeping its aspect ratio. The full company name sits alongside the mark. Theme settings → BXR store & catalog → Storefront brand name controls the shared name. Existing theme component IDs, destinations and catalog data are preserved. Shopify admin store details, checkout branding and notification settings are managed separately from this theme.
